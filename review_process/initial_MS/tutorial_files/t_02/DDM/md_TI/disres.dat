@@ -1,0 +1,22 @@
+TITLE
+distance restraints on Ca2+
+perturbed distance restraint on ASA in the active site while getting decoupled
+END
+DISTANCERESSPEC
+# DISH  DISC
+  0.1   0.153
+  # i   j   k  l  type    i    j    k  l  type  r0    w0   rah
+# distance restraint on Ca2+
+  1208  0   0   0  0    309    0    0  0   0    0.223 1.0  0
+  1208  0   0   0  0    321    0    0  0   0    0.235 1.0  0
+  1208  0   0   0  0    339    0    0  0   0    0.246 1.0  0
+  1208  0   0   0  0    489    0    0  0   0    0.255 1.0  0
+  1208  0   0   0  0    490    0    0  0   0    0.248 1.0  0
+END
+PERTDISRESSPEC
+# DISH  DISC
+  0.1   0.153
+# i   j   k   l  type      i    j     k  l  type  n m   A_r0  A_w0  B_r0   B_w0  rah
+ 21 211 264 529    -1   1195 1199  1203  0    -1  0 0    0.0   0.0   0.0    1.0   0
+END
+
