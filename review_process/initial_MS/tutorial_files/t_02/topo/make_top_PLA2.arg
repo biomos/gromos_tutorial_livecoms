@@ -1,0 +1,16 @@
+@build	54a8_ASA.mtb
+@param	54a8.ifp 
+@seq	NH3+
+        ASN  LEU  TYR  GLN  PHE  LYSH ASN  MET  ILE  GLN  CYS1 THR  VAL          
+        PRO  SER  ARG  SER  TRP  GLN  ASP  PHE  ALA  ASP  TYR  GLY  CYS1         
+        TYR  CYS1 GLY  LYSH GLY  GLY  SER  GLY  THR  PRO  VAL  ASP  ASP          
+        LEU  ASP  ARG  CYS1 CYS2 GLN  VAL  HISH ASP  ASN  CYS1 TYR  ASN          
+        GLU  ALA  GLU  ASN  ILE  SER  GLY  CYS1 ARG  PRO  TYR  PHE  LYSH         
+        THR  TYR  SER  TYR  GLU  CYS2 THR  GLN  GLY  THR  LEU  THR  CYS1         
+        LYSH GLY  ASP  ASN  ASN  ALA  CYS2 ALA  ALA  SER  VAL  CYS2 ASP          
+        CYS2 ASP  ARG  LEU  ALA  ALA  ILE  CYS2 PHE  ALA  GLY  ALA  PRO          
+        TYR  ASN  ASP  ALA  ASN  TYR  ASN  ILE  ASP  LEU  LYSH ALA  ARG          
+        CYS2 ASN                                                    
+        COO- 
+@solv	H2O
+@cys    11-71 26-118 28-44 43-99 50-92 60-85 78-90

@@ -1,0 +1,7 @@
+@topo ../correction_topologies/PLA2_ASA_Ca_2Na_L_0.0.top
+@pbc r cog
+@atoms 2:1-4
+@energies 2
+@cut 10000
+@eps 0
+@traj ../../../DDM/md_TI/md_TI_PLA2_ASA/L_1.0/md_TI_PLA2_ASA_Ca_2Na_55.cnf
