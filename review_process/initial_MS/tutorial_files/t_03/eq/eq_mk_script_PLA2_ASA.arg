@@ -1,0 +1,14 @@
+@sys		eq_PLA2_ASA_Ca_2Na 
+@bin	        ...your-path-to... /programs/md 
+@dir	        ...your-path-to... /t_03/eq 
+@files 
+    topo	../topo/PLA2_ASA_Ca_2Na.top 
+    input	eq_PLA2_ASA_Ca_2Na.imd 
+    coord	../ion/PLA2_ASA_Ca_2Na.cnf 
+    posresspec	../ion/PLA2_ASA_Ca_2Na.por 
+    refpos	../ion/PLA2_ASA_Ca_2Na.rpr 
+    disres	disres.dat 
+@template	mk_script.lib 
+@version        md++ 
+@joblist        eq_PLA2_ASA.jobs
+

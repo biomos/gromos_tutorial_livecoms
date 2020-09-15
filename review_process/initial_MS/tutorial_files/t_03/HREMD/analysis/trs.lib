@@ -1,0 +1,43 @@
+TITLE
+  XX Library file for trs_ana
+END
+SPECIALTRJ
+# block definition for the special trajectory file.
+# which is specified by the input flag trs of program trs_ana.
+#
+# Use keyword 'block' to specify the blocks
+#             'subblock' to specify name and dimensions of a set of data
+#             'size' to specify a size that should be read in from the file
+#                    this size can be used as dimension specification
+#                    in a subblock definition. Using the prefix 'matrix_'
+#                    with such a definition will expand the size N to
+#                    N*(N+1)/2
+#
+# Following is the definition for a gromosXX special trajectory
+#
+  block TIMESTEP
+    subblock TIME 2 1
+  block DISFIELDRESDATA
+    subblock DF 2 1
+END
+VARIABLES
+# Here you can define variables to be calculated by the program ene_ana
+# In principal the program refers to the blocknames you have defined above,
+# accessing individual element using array indices (one- or two-dimensional)
+#
+# Predefined as well is the Boltzmann constant (as BOLTZ = 0.00831441) and
+# the MASS which (if not present in the energy trajectory) will be calculated
+# from the topology (if inputflag @topo is given).
+#
+# Additional properties can be defined here as a direct mapping of a known 
+# property or as an expression of such properties. Make sure that variables
+# and operators are always seperated by spaces. Multi-line expressions are
+# allowed.
+#
+# Examples that work with the standard gromos96 definition are
+#          given below and are actually standardly define if no library
+#          file is specified.
+time   = TIME[2]
+df_dist = DF[1]
+df_force = DF[2]
+END

@@ -1,0 +1,24 @@
+TITLE
+distance restraints on Ca2+
+END
+DISTANCERESSPEC
+# DISH  DISC
+  0.1   0.153
+  # i   j   k  l  type    i    j    k  l  type  r0    w0   rah
+# distance restraint on Ca2+
+  1208  0   0   0  0    309    0    0  0   0    0.223 1.0  0
+  1208  0   0   0  0    321    0    0  0   0    0.235 1.0  0
+  1208  0   0   0  0    339    0    0  0   0    0.246 1.0  0
+  1208  0   0   0  0    489    0    0  0   0    0.255 1.0  0
+  1208  0   0   0  0    490    0    0  0   0    0.248 1.0  0
+END
+PERTDFRESSPEC
+# DISH  DISC
+  0.1   0.153
+# PROTEINATOMS  A_R0  K_A  B_R0  K_B  M  N
+          1190   0.0  500   5.0  500  0  0
+#  TYPE_I  NUM_I ATOM_I[0] .. ATOM_I[NUM_I]
+       -1      7    16 190 249 312 486 632 1208
+#  TYPE_J  NUM_J ATOM_J[0] .. ATOM_J[NUM_J]
+       -1      2  1194 1203
+END
