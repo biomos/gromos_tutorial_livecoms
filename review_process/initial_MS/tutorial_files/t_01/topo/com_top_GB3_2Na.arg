@@ -1,0 +1,8 @@
+# this combines several topologies into one solute topology.
+@topo  GB3_54a7.top 2:Na_54a7.top
+# the parameters (what you specified with @param in make_top) are taken from the first topology. 
+# this is not so important because all our topologies use the same force field anyway.
+@param 1
+# the solvent is taken from the first topology.
+@solv  1
+

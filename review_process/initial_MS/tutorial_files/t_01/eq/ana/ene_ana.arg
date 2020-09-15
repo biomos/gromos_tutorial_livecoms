@@ -1,0 +1,10 @@
+@topo  ../../topo/GB3_2Na_54a7.top
+@time 0 0.2 
+@library ene_ana.md++.lib 
+@prop totkin
+@en_files
+../eq_GB3_1.tre.gz
+../eq_GB3_2.tre.gz
+../eq_GB3_3.tre.gz
+../eq_GB3_4.tre.gz
+../eq_GB3_5.tre.gz

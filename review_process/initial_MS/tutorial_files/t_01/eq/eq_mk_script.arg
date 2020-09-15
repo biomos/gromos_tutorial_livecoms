@@ -1,0 +1,12 @@
+@sys		eq_GB3
+@bin	        /usr/ITT/hansen/gromos/git/development/gromosXX/gromosXX/x86_64_OMP/bin/md
+@dir	        /usr/ITT/hansen/Research/Projects/PhD_Julia/GROMOS_Tutorial/S2_initial_version/eq
+@files
+  topo		../topo/GB3_2Na_54a7.top
+  input		equilibration.imd
+  coord		../ion/GB3_2Na_h2o.cnf
+  posresspec	GB3_2Na_h2o.por
+  refpos        GB3_2Na_h2o.rpr
+@template	mk_script.lib
+@version        md++
+@joblist        equilibration.jobs

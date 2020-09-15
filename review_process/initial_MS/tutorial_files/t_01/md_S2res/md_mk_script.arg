@@ -1,0 +1,11 @@
+@sys		md_GB3_S2res
+@bin            /usr/ITT/hansen/gromos/git/development/gromosXX/gromosXX/x86_64_OMP/bin/md
+@dir            /usr/ITT/hansen/Research/Projects/PhD_Julia/GROMOS_Tutorial/S2_initial_version/md_S2res
+@files
+  topo		../topo/GB3_2Na_54a7.top
+  input		md.imd
+  coord		../eq/eq_GB3_5.cnf
+  order         order_exp.dat
+@template	mk_script.lib
+@version        md++
+@joblist        S2_restraining.jobs

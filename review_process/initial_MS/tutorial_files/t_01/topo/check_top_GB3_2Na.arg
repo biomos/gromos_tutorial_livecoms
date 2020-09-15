@@ -1,0 +1,6 @@
+# check_top performs a check of the topology file. Give it with the @topo argument.
+@topo	GB3_2Na_54a7.top
+# add the forcefield building block and parameter arguments to do a more careful check against the force-field.
+@build  54a7.mtb
+@param  54a7.ifp
+
