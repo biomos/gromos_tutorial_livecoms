@@ -1,0 +1,5 @@
+@topo ../topo/GB3_54a7.top
+# the PDB file you want to convert
+@pdb  2oed_edited.pdb
+@gch
+@lib   pdb2g96.lib

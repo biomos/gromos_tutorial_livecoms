@@ -1,0 +1,7 @@
+#!/bin/sh
+GROMOS= ...your-path-to... /programs/md 
+$GROMOS \
+  @topo ../topo/GB3_54a7.top \
+  @conf ../coord/pdb2g96_GB3.cnf \
+  @fin  GB3_min.cnf \
+  @input em_GB3.imd > em_GB3.omd

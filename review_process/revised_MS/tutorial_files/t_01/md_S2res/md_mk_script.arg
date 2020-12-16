@@ -1,0 +1,11 @@
+@sys		md_GB3_S2res
+@bin            ...your-path-to... /programs/md # for MPI support you should use the binary md_mpi
+@dir            ...your-path-to... /t_01/md_S2res
+@files
+  topo		../topo/GB3_2Na_54a7.top
+  input		md.imd
+  coord		../eq/eq_GB3_5.cnf
+  order         order_exp.dat
+@template	mk_script.lib
+@version        md++
+@joblist        S2_restraining.jobs

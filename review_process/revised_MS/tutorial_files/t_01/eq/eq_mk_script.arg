@@ -1,0 +1,12 @@
+@sys		eq_GB3
+@bin	        ...your-path-to... /programs/md  # for MPI support you should use the binary md_mpi
+@dir	        ...your-path-to... /t_01/eq
+@files
+  topo		../topo/GB3_2Na_54a7.top
+  input		equilibration.imd
+  coord		../ion/GB3_2Na_h2o.cnf
+  posresspec	GB3_2Na_h2o.por
+  refpos        GB3_2Na_h2o.rpr
+@template	mk_script.lib
+@version        md++
+@joblist        equilibration.jobs

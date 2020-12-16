@@ -1,0 +1,9 @@
+#!/bin/sh
+GROMOS= ...your-path-to... /programs/md
+$GROMOS \
+  @topo ../topo/GB3_54a7.top \
+  @conf sim_box_GB3.cnf \
+  @fin  GB3_h2o.cnf \
+  @refpos sim_box_GB3.rpr \
+  @posresspec sim_box_GB3.por \
+  @input em_solvent.imd > em_solvent.omd

@@ -1,0 +1,24 @@
+@topo     ../../../topo/GB3_2Na_54a7.top
+@prop     totene totpot totkin solute_intra
+@library ../ene_ana.md++.lib
+@en_files
+../../../md/md_GB3_2.tre.gz
+../../../md/md_GB3_3.tre.gz
+../../../md/md_GB3_4.tre.gz
+../../../md/md_GB3_5.tre.gz
+../../../md/md_GB3_6.tre.gz
+../../../md/md_GB3_7.tre.gz
+../../../md/md_GB3_8.tre.gz
+../../../md/md_GB3_9.tre.gz
+../../../md/md_GB3_10.tre.gz
+../../../md/md_GB3_11.tre.gz
+../../../md/md_GB3_12.tre.gz
+../../../md/md_GB3_13.tre.gz
+../../../md/md_GB3_14.tre.gz
+../../../md/md_GB3_15.tre.gz
+../../../md/md_GB3_16.tre.gz
+../../../md/md_GB3_17.tre.gz
+../../../md/md_GB3_18.tre.gz
+../../../md/md_GB3_19.tre.gz
+../../../md/md_GB3_20.tre.gz
+../../../md/md_GB3_21.tre.gz
