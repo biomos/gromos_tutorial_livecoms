@@ -1,0 +1,7 @@
+@topo ../correction_topologies/ASA_Na_L_0.0.top
+@pbc r cog
+@atoms 1:1-4
+@energies 2
+@cut 1.4
+@eps 61
+@traj ../../../DDM/md_TI/md_TI_ASA/L_0.2/md_TI_ASA_Na_15.cnf

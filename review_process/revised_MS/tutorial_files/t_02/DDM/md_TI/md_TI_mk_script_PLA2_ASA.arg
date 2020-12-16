@@ -1,0 +1,13 @@
+@sys             md_TI_PLA2_ASA_Ca_2Na 
+@bin             ...your-path-to... /programs/md # for MPI support you should use the binary md_mpi 
+@dir             ...your-path-to... /t_02/DDM/md_TI/md_TI_PLA2_ASA 
+@files 
+    topo         ../../../topo/PLA2_ASA_Ca_2Na.top 
+    input        ../md_TI_PLA2_ASA_Ca_2Na.imd 
+    coord        ../../../eq/eq_PLA2_ASA/eq_PLA2_ASA_Ca_2Na_7.cnf 
+    pttopo       ../../../topo/PLA2_ASA2DUM_Ca_2Na.ptp
+    disres       ../disres.dat
+@template        mk_script.lib
+@version         md++
+@joblist         ../md_TI.jobs
+

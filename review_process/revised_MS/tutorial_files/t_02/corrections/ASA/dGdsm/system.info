@@ -1,0 +1,8 @@
+# system configuration
+(x,y,z)=(3.05,3.38,3.55)	#x,y,z coordinates of the box [nm]
+n=1189				#total number of water molecules
+q=-1				#net charge of the perturbed molecule
+# electrostatic settings and solvent model
+rcut=1.4			#cutoff size [nm]
+epsBW=61.0			#permittivity of the reaction field
+quadrupole=0.0082		#quadrupole moment of the water model [e nm2]
