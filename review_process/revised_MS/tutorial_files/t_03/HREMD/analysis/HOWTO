@@ -1,0 +1,48 @@
+# WHAT: combine replica.dat files from each of the runs, into a single file for later analysis
+# input: replica.dat at each of the runs 
+#        nr of runs (25 in the example)
+#        nr of trials per run (100 in the example)
+
+./gather_replica_data.sh 25 100
+
+# output: replica_all.dat
+
+-------------------------
+
+# 
+./rep_ana_mpi.py replica_all.dat
+
+# output: rep_change.out (can be visualized with xmgrace)
+
+
+--------------------------------
+# WHAT: write out the measured df distance for each of the replicas
+# input:	*trs.gz files for each of the runs and replicas
+#		nr of runs (25 in the example)
+#		nr of replicas (24 in the example)
+
+./do_all_trs_ana.sh 25 24
+
+# output directory: df_dist/
+# output: df_dist_{XX}.dat for each replica XX
+
+--------------------------------
+
+#WHAT: determine distributions of df distances for each replica
+#input: df_dist/df_dist_{XX}.dat files
+
+./do_tcf.sh
+
+#output dir: tcf/
+#output: tcf_{XX}.out for each replica XX
+
+
+-------------------------------
+
+#WHAT: determine FEC
+#input: tcf/tcf_{XX}.out files
+
+./do_wham.sh
+ 
+#output: wham_FEC*min0.dat contains the FEC with the minimum set to zero for easy comparison
+
