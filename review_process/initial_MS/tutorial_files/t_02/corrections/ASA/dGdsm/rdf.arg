@@ -1,8 +1,0 @@
- @topo ../correction_topologies/ASA_Na_L_0.0.top
- @pbc r cog
- @centre 1:1-4
- @with s:a
- @cut 1.4
- @grid 500
- @traj   ../../../DDM/md_TI/md_TI_ASA/L_0.0/md_TI_ASA_Na_1.trc.gz ../../../DDM/md_TI/md_TI_ASA/L_0.0/md_TI_ASA_Na_2.trc.gz ../../../DDM/md_TI/md_TI_ASA/L_0.0/md_TI_ASA_Na_3.trc.gz ../../../DDM/md_TI/md_TI_ASA/L_0.0/md_TI_ASA_Na_4.trc.gz ../../../DDM/md_TI/md_TI_ASA/L_0.0/md_TI_ASA_Na_5.trc.gz
- 

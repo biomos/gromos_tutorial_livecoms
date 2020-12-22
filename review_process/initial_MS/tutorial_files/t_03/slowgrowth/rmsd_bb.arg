@@ -1,8 +1,0 @@
-#rmsd 
-@topo 		../topo/PLA2_ASA_Ca_2Na.top 
-@pbc 		r cog 
-@time 		0 2 
-@atomsrmsd 	1:N,CA,C,O 
-@atomsfit 	1:a 
-@ref 		../eq/eq_PLA2_ASA_Ca_2Na_7.cnf 
-@traj 		slowgrowth_PLA2_ASA_1.trc.gz

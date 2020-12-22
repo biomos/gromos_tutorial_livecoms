@@ -1,4 +1,0 @@
-#trs_ana 
-@trs 		slowgrowth_PLA2_ASA_1.trs.gz
-@prop 		df_dist df_force 
-@library 	trs.lib

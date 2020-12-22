@@ -1,8 +1,0 @@
-#!/bin/sh
-#GROMOS=md
-GROMOS=/usr/ITT/hansen/gromos/git/development/gromosXX/gromosXX/x86_64_OMP/bin/md
-$GROMOS \
-  @topo ../topo/GB3_54a7.top \
-  @conf ../coord/pdb2g96_GB3.cnf \
-  @fin  GB3_min.cnf \
-  @input em_GB3.imd > em_GB3.omd

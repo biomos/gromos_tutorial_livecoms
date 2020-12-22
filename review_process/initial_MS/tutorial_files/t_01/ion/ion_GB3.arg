@@ -1,6 +1,0 @@
-@topo      ../topo/GB3_54a7.top
-@pbc       r
-@positive  2 NA+
-@potential 0.8
-@mindist   0.35
-@pos     ../box/GB3_h2o.cnf
