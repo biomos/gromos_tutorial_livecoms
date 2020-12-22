@@ -6,7 +6,7 @@ The double decoupling method (DDM)~\cite{DDM} is an alchemical perturbation appr
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.21]{../05_tutorial_02/figures/TC_ASA.png}
-    \caption{Thermodynamic cycle for the calculation of the standard binding free energy of aspirin (ASA$^-$) binding to the protein phospholipase A$_2$ (PLA$_2$). ASA$^-$ is turned into a non-interacting dummy molecule (DUM), both in its complexed state (\textit{v}) and free in solution (\textit{ii}). The free energy of DUM binding to PLA$_2$ is zero (\textit{iii}). An intermediate state (DUM-PLA$_2$) is introduced by linking both binding partners with a harmonic distance restraint. The free-energy contribution of this restraint can be calculated analytically (\textit{iv}) via equation \ref{disres}. The free energy differences of branches (\textit{ii}) and (\textit{v}) are determined via (extended) thermodynamic integration (TI), enabling the calculation of the standard binding free energy (\textit{i}).}
+    \caption{Thermodynamic cycle for the calculation of the standard binding free energy of aspirin (ASA$^-$) binding to the protein phospholipase A$_2$ (PLA$_2$). ASA$^-$ is turned into a non-interacting dummy molecule (DUM), both in its complexed state (\textit{v}) and free in solution (\textit{ii}). The free energy of DUM binding to PLA$_2$ is zero (\textit{iii}). An intermediate state (DUM-PLA$_2$) is introduced by linking both binding partners with a harmonic distance restraint. The free energy contribution of this restraint can be calculated analytically (\textit{iv}) via equation \ref{disres}. The free energy differences of branches (\textit{ii}) and (\textit{v}) are determined via (extended) thermodynamic integration (TI), enabling the calculation of the standard binding free energy (\textit{i}).}
     \label{TC_ASA}
 \end{figure}
 %
@@ -92,9 +92,9 @@ Note that this tutorial can also be carried out using standard TI, in which case
 The choice of 11 equally spaced $\lambda$-points is typically a reasonable start, but it is recommended to adjust the number of points and the spacing according to the curvature and error estimates of $\partial\mathcal{H}/\partial\lambda$. 
 In X-TI, adjustment is often not necessary, even fewer points are sufficient in some cases, but for standard TI usually more than 11 $\lambda$-points are needed. 
 Therefore, we strongly recommend to use the \texttt{PRECALCLAM} block and take advantage of the pre-calculation of intermediate non-simulated $\lambda$-points and subsequent reweighting.
-To run the two simulations, copy the argument files required by the \texttt{mk\_script} program into the two directories \texttt{md\_TI\_ASA} and \texttt{md\_TI\_PLA2\_ASA}, respectively, and adapt the paths before generating the job files with the \texttt{mk\_script} program and submitting the jobs to a cluster. If you prefer to continue directly, you will find the necessary energy and free-energy trajectories in the subdirectories \texttt{L\_*}.
+To run the two simulations, copy the argument files required by the \texttt{mk\_script} program into the two directories \texttt{md\_TI\_ASA} and \texttt{md\_TI\_PLA2\_ASA}, respectively, and adapt the paths before generating the job files with the \texttt{mk\_script} program and submitting the jobs to a cluster. If you prefer to continue directly, you will find the necessary energy and free energy trajectories in the subdirectories \texttt{L\_*}.
 
-\subsubsection{Free-energy analysis}
+\subsubsection{Free energy analysis}
 The free energies can be determined via extended-thermodynamic integration (X-TI)~\cite{X_TI} or the Bennett acceptance ratio (BAR) method~\cite{bar}. The raw data for both methods can be extracted from the energy and free energy trajectory files using the gromos++ program \texttt{ext\_ti\_ana}. 
 
 Go into the subdirectory \texttt{DDM/ana\_TI/ana\_TI\_ASA} and run the program \texttt{ext\_TI\_ana} via the bash-script by typing
@@ -102,13 +102,13 @@ Go into the subdirectory \texttt{DDM/ana\_TI/ana\_TI\_ASA} and run the program \
 $ ./ext_ti_ana_bar.sh
 \end{lstlisting}
 %
-X-TI requires the pre-calculation of free energies at non-simulated points. Free-energy derivatives at requested non-simulated $\lambda_{\text{P}}$ values can be reweighted to obtain ensemble averages for $\lambda_{\text{P}}$ from simulated $\lambda_{\text{S}}$ points. The predictions from multiple simulations at $\lambda_{\text{S}}$ points can be merged into a single TI profile by a linear reweighting scheme using the program \texttt{ext\_TI\_merge}. 
+X-TI requires the pre-calculation of free energies at non-simulated points. Free energy derivatives at requested non-simulated $\lambda_{\text{P}}$ values can be reweighted to obtain ensemble averages for $\lambda_{\text{P}}$ from simulated $\lambda_{\text{S}}$ points. The predictions from multiple simulations at $\lambda_{\text{S}}$ points can be merged into a single TI profile by a linear reweighting scheme using the program \texttt{ext\_TI\_merge}. 
 Run the program via the bash-script by typing
 \begin{lstlisting}
 $ ./ext_ti_merge.sh
 \end{lstlisting}
 %
-The program calculates the integral of the final TI-curve using the trapezoidal rule in order to obtain the free-energy estimate. The results of X-TI for both systems, ASA and PLA2\_ASA, are shown in Figure~\ref{TI_ASA}.  
+The program calculates the integral of the final TI-curve using the trapezoidal rule in order to obtain the free energy estimate. The results of X-TI for both systems, ASA and PLA2\_ASA, are shown in Figure~\ref{TI_ASA}.  
 
 
 BAR estimates free energies from the free energy differences between two adjacent $\lambda$ points $i$ and $j$, using
@@ -129,7 +129,7 @@ the bash-script by typing
 $ ./bar.sh 
 \end{lstlisting}
 %
-BAR is computationally more efficient and converges relatively fast compared to regular TI. The efficiency of X-TI is comparable with the added advantage of a direct visualization of the entire free-energy profile~\cite{Maurer}.
+BAR is computationally more efficient and converges relatively fast compared to regular TI. The efficiency of X-TI is comparable with the added advantage of a direct visualization of the entire free energy profile~\cite{Maurer}.
 
 \begin{figure}[H]
     \centering
@@ -159,20 +159,20 @@ simplifications in the calculations of the electrostatic interactions,
 the calculated free energies are artifacted. In the following
 paragraphs, we will refer to these energies as raw free energies. We
 will quantify and correct these artifacted components using a
-free-energy correction $\Delta G_{\text{cor}}$ to yield methodology-independent
+free energy correction $\Delta G_{\text{cor}}$ to yield methodology-independent
 values $\Delta G$ as
 \begin{align}
     \Delta G = \Delta G_{\text{raw}} + \Delta G_{\text{cor}}
 \end{align}
 %
 Analogous to Reif and Oostenbrink~\cite{Reif2014}, $\Delta G_{\text{cor}}$ is a
-combination of multiple free-energy corrections for a spurious
+combination of multiple free energy corrections for a spurious
 solvent-polarization ($\Delta G_{\text{pol}}$), the impracticality
 of
 calculating the zero of the potential under periodic boundary
 conditions using discrete solvent molecules ($\Delta G_{\text{dsm}}$) and
 artifacted direct interactions between the ligand and the host
-molecule ($\Delta G_{\text{dir}}$). The free-energy correction is calculated
+molecule ($\Delta G_{\text{dir}}$). The free energy correction is calculated
 as
 \begin{align} \label{equ:corrected_free_energy}
   \Delta G_{\text{cor}} = \Delta G_{\text{pol}} + \Delta G_{\text{dir}} + \Delta G_{\text{dsm}}
@@ -316,7 +316,7 @@ offset. For a rigid solvent model with a single van der Waals
 interaction site and any scheme relying on molecular-cutoff truncation
 based on this specific site, it can be shown that this offset is
 related to the quadrupole moment trace of the solvent model used. The
-free-energy correction is furthermore proportional to the
+free energy correction is furthermore proportional to the
 water-molecule density inside the box (LS - lattice summation schemes)
 or within the cutoff radius (cutoff schemes with reaction-field
 correction - RF) and reads
