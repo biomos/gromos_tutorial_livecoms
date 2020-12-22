@@ -3,7 +3,7 @@
 This repository contains a collection of files accompanying the suite of GROMOS tutorials 
 described in a [LiveCoMS](https://www.livecomsjournal.org/) 
 publication. The final pdf version of the manuscript can be found in the 
-releases 
+[releases](https://github.com/hansenniels/gromos_tutorial_livecoms/tree/master/releases) 
 directory. The corresponding source files are located in 
 [revised\_MS](https://github.com/hansenniels/gromos_tutorial_livecoms/tree/master/review_process/revised_MS)
 Each subdirectory in the directory 
