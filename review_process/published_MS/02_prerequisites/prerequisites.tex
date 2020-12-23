@@ -1,0 +1,39 @@
+% prerequisites
+%\textcolor{red}{Here you would identify prerequisites/background knowledge that are assumed by your work, as well as any software/license requirements.}
+The tutorials require the latest GROMOS11 version installed (1.5.0). 
+%A GROMOS license will be issued for free upon registration of a user at \url{www.gromos.net}.  
+Users can download the GROMOS source code by visiting \url{www.gromos.net} 
+and registering.  Upon registration users may download the source code for free, as well as the PDF files for the manual. Files required for the basic tutorials in volume 7 of the manual can also be downloaded upon registration.
+%\hl{Users who downloaded GROMOS from the website, also have access to the pdf files of the manual. 
+The Program Library Manual (volume 5) \cite{volume_5} 
+contains extensive documentation of the input flags. Furthermore, after compilation of the code, one can generate local documentation using doxygen.
+
+
+\subsection{Background knowledge}
+%\textcolor{red}{Tutorials should clearly define what concepts or abilities researchers will need to complete the tutorial (e.g., some proficiency in Python; experience with Jupyter notebooks; knowledge of classical MD; etc).}
+%
+%The tutorials assume the user to be familiar with the content of a GROMOS system topology, input files and analysis tools as explained in detail in the basic tutorials distributed with the software \cite{volume_7}. 
+The tutorials described in this article assume the user to be familiar with the steps described in the GROMOS basic tutorial contained in volume 7 of the manual distributed with the software \cite{volume_7}. 
+Specifically, users should be familiar with the content of a GROMOS system topology, input files and analysis tools explained in detail there.
+Tutorial 1 (see section 3.1) repeats some of the basic system preparation steps but cannot be comprehensive in explaining all basic operations. We assume that the user is familiar with basic Linux or Unix 
+command line interactions and tools to efficiently edit larger plain text files such as VIM or Emacs. Furthermore a user should be able to visualise molecular structures (e.g. with PyMOL \cite{pymol} or VMD \cite{HUMP96}) 
+and to use basic plotting tools (e.g. Xmgrace, R, matplotlib).  
+
+The GROMOS software for biomolecular simulation comprises the molecular dynamics engine MD++ and the \linebreak GROMOS++ suite of pre- and postprocessing programs. The program is independent of the computer architecture or force field used. 
+The units of the various quantities are defined outside the program through a physical constants block in a force-field file. The only unit conversion performed internally by the program is between degrees and radians. The force-field files come 
+in GROMOS units, that is SI units, but with atomic mass units for mass, nm for distance, ps for time, and electronic charge for charge \cite{volume_6}. No simulation protocols are prescribed. 
+Input parameters specified by a user are not modified inside 
+the program unless incompatible with the code. In all cases a warning message is displayed. The interpretation of the results is simplified by an extensive 
+documentation of the implemented algorithms and their technical details 
+in the manual available on the GROMOS web site \cite{volume_6,volume_2}.
+
+\subsection{Software/system requirements}
+%\textcolor{red}{Tutorials should clearly define what system and/or software requirements %the researcher will need to complete the tutorial (e.g., VMD version 1.9 or newer, AMBER, %etc.). Tutorials requiring specific software packages must provide instructions and files %for the referenced version of the software.}
+%
+GROMOS can be compiled on almost any operating system compatible with the POSIX standard.
+ Some of the libraries required are not available on standard operating systems and have to be installed 
+manually as described in detail in volume 8 of the GROMOS documentation \cite{volume_8}. 
+In order to use the GROMOS programs without specifying the full path you can add them to your PATH variable, see section 3.2.2. in volume 8.
+For some of the analyses a basic installation of Python 3 is required. 
+Note that files edited on non-Unix-like operating systems may cause an I/O-error due to a different representation of a line break.
+
