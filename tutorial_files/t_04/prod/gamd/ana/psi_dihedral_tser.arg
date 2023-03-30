@@ -1,0 +1,15 @@
+@topo ../../../topo/ala_dip_54a8.top
+@pbc r
+@prop tp%1:4,6,8,10
+@traj
+   ../aladip_gamd_production_1.trc.gz  
+   ../aladip_gamd_production_2.trc.gz  
+   ../aladip_gamd_production_3.trc.gz  
+   ../aladip_gamd_production_4.trc.gz
+   ../aladip_gamd_production_5.trc.gz
+   ../aladip_gamd_production_6.trc.gz 
+   ../aladip_gamd_production_7.trc.gz 
+   ../aladip_gamd_production_8.trc.gz 
+   ../aladip_gamd_production_9.trc.gz
+   ../aladip_gamd_production_10.trc.gz
+

@@ -1,0 +1,11 @@
+@sys        aladip_gamd_search
+@bin	    /* path to binary files */
+@dir	    /* path to directory */
+@files
+  topo			../../topo/ala_dip_54a8.top
+  input			gamd_search.imd
+  coord		        ../../eq/aladip_equilibrated.cnf
+  gamd                  ../gamd_setup/selective_ala.gamd	
+@template		../../libs/mkscript.lib
+@version        md++
+@joblist           gamd_search.jobs       
