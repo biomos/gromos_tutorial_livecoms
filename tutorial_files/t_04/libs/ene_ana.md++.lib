@@ -161,7 +161,7 @@ gamd_ed5 = GAMD[6][1]
 gamd_et5 = GAMD[6][2]
 gamd_kd5 = GAMD[6][3]
 gamd_kt5 = GAMD[6][4]
-
+totunbiased = ENER[3] - ENER[50]
 # calculate the pressure in atm.
 pressu = PRESSURE[1] * 16.388453
 boxvol = VOLUME[1]

@@ -1,5 +1,5 @@
 
-@prop        totgamd_dV
+@prop        totgamd_dV totunbiased totpot
 @library     ../../../libs/ene_ana.md++.lib
 @en_files   
    ../aladip_gamd_selective_1.tre.gz  

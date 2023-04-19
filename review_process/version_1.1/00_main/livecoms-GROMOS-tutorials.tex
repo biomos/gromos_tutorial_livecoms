@@ -1,0 +1,204 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LIVECOMS ARTICLE TEMPLATE FOR BEST PRACTICES GUIDE
+%%% ADAPTED FROM ELIFE ARTICLE TEMPLATE (8/10/2017)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PREAMBLE.
+\documentclass[9pt,tutorial,pubversion]{../includes/livecoms}
+% Use the 'onehalfspacing' option for 1.5 line spacing
+% Use the 'doublespacing' option for 2.0 line spacing
+% Use the 'lineno' option for adding line numbers.
+% Use the "ASAPversion' option following article acceptance to add the DOI and relevant dates to the document footer.
+% Use the 'pubversion' option for adding the citation and publication information to the document footer, when the LiveCoMS issue is finalized.
+% The 'bestpractices' option for indicates that this is a best practices guide.
+% Omit the bestpractices option to remove the marking as a LiveCoMS paper.
+% Please note that these options may affect formatting
+\usepackage{lipsum} % Required to insert dummy text
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{color,soul}
+\lstset{
+	basicstyle=\ttfamily,
+	commentstyle={},
+	breakatwhitespace=true,
+	breaklines=true,
+	language=bash
+}
+\DeclareSIUnit\Molar{M}
+\usepackage[italic]{mathastext}
+%\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.png,.eps}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% IMPORTANT USER CONFIGURATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\versionnumber}{1.1}  % you should update the minor version number in preprints and major version number of submissions.
+\newcommand{\githubrepository}{\url{https://github.com/hansenniels/gromos_tutorial_livecoms}}  %this should be the main github repository for this article
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{Biomolecular Simulation using the GROMOS Software Package: A set of tutorials illustrating NMR order parameter restraining and binding free-energy calculations [Article v\versionnumber]}
+\title{A Suite of Advanced Tutorials for the GROMOS Biomolecular Simulation Software [Article v\versionnumber]}
+
+\author[1]{Bettina Lier}
+\author[1]{Christoph \"Ohlknecht}
+\author[1]{Anita de Ruiter}
+\author[2]{Julia Gebhardt}
+\author[1]{Oriol Gracia Carmona}
+%\author[3]{Coauthor(s) Zurich}
+%\author[1,2\authfn{1}\authfn{3}]{Firstname Middlename Familyname}
+%\author[2\authfn{1}\authfn{4}]{Firstname Initials Surname}
+\author[3]{Wilfred F. van Gunsteren}
+\author[1*]{Chris Oostenbrink}
+\author[2*]{Niels Hansen}
+\affil[1]{Institute of Molecular Modeling and Simulation, University of Natural Resources and Life Sciences, Vienna, Austria}
+\affil[2]{Institute of Thermodynamics and Thermal Process Engineering, University of Stuttgart, Stuttgart, Germany}
+\affil[3]{Laboratory of Physical Chemistry, Swiss Federal Institute of Technology, ETH, Z\"urich, Switzerland}
+
+\corr{chris.oostenbrink@boku.ac.at}{CO}  % Correspondence emails.  FMS and FS are the appropriate authors initials.
+\corr{niels.hansen@itt.uni-stuttgart.de}{NH}
+
+\orcid{Bettina Lier}{0000-0002-8032-0084}
+\orcid{Christoph \"Ohlknecht}{0000-0003-1847-1719}
+\orcid{Anita de Ruiter}{0000-0003-3046-8969}
+\orcid{Julia Gebhardt}{0000-0002-5529-7337}
+\orcid{Oriol Gracia Carmona}{0000-0001-6560-9106}
+\orcid{Wilfred F. van Gunsteren}{0000-0002-9583-7019}
+\orcid{Chris Oostenbrink}{0000-0002-4232-2556}
+\orcid{Niels Hansen}{0000-0003-4366-6120}
+
+%\contrib[\authfn{1}]{These authors contributed equally to this work}
+%\contrib[\authfn{2}]{These authors also contributed equally to this work}
+
+%\presentadd[\authfn{3}]{Department, Institute, Country}
+%\presentadd[\authfn{4}]{Department, Institute, Country}
+
+\blurb{This LiveCoMS document is maintained online on GitHub at \githubrepository; to provide feedback, suggestions, or help improve it, please visit the GitHub repository and participate via the issue tracker.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PUBLICATION INFORMATION
+%%% Fill out these parameters when available
+%%% These are used when the "pubversion" option is invoked
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pubDOI{10.33011/livecoms.2.1.18552}
+\pubvolume{2}
+\pubissue{1}
+\pubyear{2020}
+\articlenum{18552}
+\datereceived{15 September 2020}
+\dateaccepted{22 December 2020}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+\maketitle
+
+\begin{abstract}
+This tutorial describes the practical use of some recent methodological advances implemented in the GROMOS software for biomolecular simulations. It is envisioned as a living document, with additional tutorials being added in the course of time. Currently, it consists of four distinct tutorials. The first tutorial describes the use of time-averaged restraints to enforce agreement with order parameters derived from NMR experiments. The second tutorial describes the use of extended thermodynamic integration in the double-decoupling method to compute the affinity of a small molecule to a protein. The molecule involved bears a negative charge, necessitating the application of post-simulation corrections. The third tutorial is based on the same molecular system, but computes the binding free energy from a path-sampling method with distance-field distance restraints and Hamiltonian replica exchange simulations. The fourth tutorial describes the use of Gaussian accelerated MD, an enhanced sampling technique, on the alanine dipeptide system. The tutorials are written for users with some experience in the application of molecular dynamics simulations. 
+
+%This particular document provides a skeleton illustrating key sections for a Tutorial document.
+%Please see the sample \texttt{sample-document.tex} in \url{github.com/livecomsjournal/article_templates/templates} for additional information on and examples of using the LiveCoMS LaTeX class.
+%Here we also assume familiarity with LaTeX and knowledge of how to include figures, tables, etc.; if you want examples, see the sample just referenced.
+%
+%In your work, in this particular slot, please provide an abstract of no more than 250 words.
+%Your abstract should explain the main contributions of your article, and should not contain any material that is not included in the main text.
+%Please note that your abstract, plus the authorship material following it, must not extend beyond the title page or modifications to the LaTeX class will likely be needed.
+\end{abstract}
+
+\end{frontmatter}
+
+\section{Introduction}
+
+\input{../01_intro/intro.tex}
+
+
+\section{Prerequisites}
+
+\input{../02_prerequisites/prerequisites.tex}
+
+
+\section{Content and links}
+
+%\textcolor{red}{This is a citiation \cite{Aivazian917}.}
+%\textcolor{red}{A tutorial will normally draw on additional files and materials; clearly indicate where and how these are available, with links, and how they are being archived for the long-%term and maintained so they stay current.
+%You will likely want to reference your GitHub repository as a central point to access all of this information, and then the GitHub repository may link out to other content as needed.}
+The tutorials described in this article can be accessed at \url{https://github.com/hansenniels/gromos_tutorial_livecoms}. All necessary files for completing each tutorial are provided at that location.
+
+%\input{../03_overview/overview.tex}
+
+\input{../04_tutorial_01/tutorial_01.tex}
+
+\input{../05_tutorial_02/tutorial_02.tex}
+
+\input{../06_tutorial_03/tutorial_03.tex}
+
+\input{../07_tutorial_04/tutorial_04.tex}
+\section{Author Contributions}
+%%%%%%%%%%%%%%%%
+% This section mustt describe the actual contributions of
+% author. Since this is an electronic-only journal, there is
+% no length limit when you describe the authors' contributions,
+% so we recommend describing what they actually did rather than
+% simply categorizing them in a small number of
+% predefined roles as might be done in other journals.
+%
+% See the policies ``Policies on Authorship'' section of https://livecoms.github.io
+% for more information on deciding on authorship and author order.
+%%%%%%%%%%%%%%%%
+
+%(Explain the contributions of the different authors here)
+JG and NH prepared Tutorial 1, BL, C\"O, AdR and CO prepared Tutorials 2 and 3. OGC prepared tutorial 4. All authors contributed to manuscript writing.
+
+% We suggest you preserve this comment:
+%For a more detailed description of author contributions,
+%see the GitHub issue tracking and changelog at \githubrepository.
+
+\section{Other Contributions}
+
+%%%%%%%%%%%%%%%
+% You should include all people who have filed issues that were
+% accepted into the paper, or that upon discussion altered what was in the paper.
+% Multiple significant contributions might mean that the contributor
+% should be moved to authorship at the discretion of the a
+%
+% See the policies ``Policies on Authorship'' section of https://livecoms.github.io for
+% more information on deciding on authorship and author order.
+%%%%%%%%%%%%%%%
+This work has profited from the experiences of various members of the research groups of  WFvG, NH and CO using the methods explained in this tutorial.
+
+%\textcolor{red}{(Explain the contributions of any non-author contributors here)}
+% We suggest you preserve this comment:
+%\textcolor{red}{For a more detailed description of contributions from the community and %others, see the GitHub issue tracking and changelog at \githubrepository.}
+
+\section{Potentially Conflicting Interests}
+%%%%%%%
+%Declare any potentially competing interests, financial or otherwise
+%%%%%%%
+%Declare any potentially conflicting interests here, whether or not they pose an actual conflict in your view.
+WFvG, CO and NH are developers of the GROMOS simulation package.
+
+\section{Funding Information}
+%%%%%%%
+% Authors should acknowledge funding sources here. Reference specific grants.
+%%%%%%%
+NH acknowledges funding by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany’s Excellence Strategy – EXC 2075 – 390740016.
+
+\section*{Author Information}
+\makeorcid
+
+\bibliography{livecoms-sample}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% APPENDICES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\appendix
+
+
+\end{document}
