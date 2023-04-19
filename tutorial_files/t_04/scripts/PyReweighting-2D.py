@@ -70,7 +70,7 @@ def main():
     if args.Emax:
         cb_max=float(args.Emax)
     else :
-        cb_max = 8
+        cb_max = 31
 
 ## SET BOLTZMAN CONSTANT
     boltz_dict = {
@@ -80,7 +80,7 @@ def main():
     if args.boltz:
         boltz_c = boltz_dict[args.boltz]
     else:
-        boltz = boltz_dict["kcal"]
+        boltz = boltz_dict["kj"]
 
 ##  SET HISTOGRAM CUTOFF
     if args.cutoff:
@@ -194,7 +194,7 @@ def main():
         cb = plt.colorbar(ticks=cbar_ticks, format=('% .1f'), aspect=10) # grab the Colorbar instance
         imaxes = plt.gca()
         plt.sca(cb.ax)
-        plt.clim(vmin=0,vmax=8)
+        plt.clim(vmin=0,vmax=cb_max)
         plt.yticks(fontsize=18)
         plt.sca(imaxes)
         axis=(min(binsX), max(binsX), min(binsY), max(binsY))
