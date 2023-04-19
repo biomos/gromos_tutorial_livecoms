@@ -9,7 +9,9 @@ directory. The corresponding source files are located in
 Each subdirectory in the directory 
 [tutorial\_files](https://github.com/hansenniels/gromos_tutorial_livecoms/tree/master/tutorial_files) 
 contains all files necessary 
-for completing each of the three tutorials described in the manuscript. 
+for completing each of the three tutorials described in the manuscript.
+An updated version of the manuscript containing a forth tutorial can be found in
+[version\_1.1](https://github.com/hansenniels/gromos_tutorial_livecoms/tree/master/review_process/version_1.1).
 The tutorials are designed for users with some experience 
 in the application of molecular dynamics simulations. Therefore, we suggest to 
 carry out the basic tutorial first, that is available on www.gromos.net after registration.
