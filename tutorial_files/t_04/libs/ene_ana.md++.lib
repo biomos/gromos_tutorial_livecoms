@@ -2,7 +2,7 @@ TITLE
   XX Library file for ene_ana
 END
 ENEVERSION
-  2022-10-19
+  2023-04-15
 END
 ENERTRJ
 # block definition for the energy trajectory file.
@@ -54,15 +54,17 @@ FRENERTRJ
     subblock TIME 2 1
   block FREEENERDERIVS03
     subblock RLAM 1 1
-    subblock FREEENER 46 1
+    subblock FREEENER 50 1
     size NUM_BATHS
     subblock FREEKINENER NUM_BATHS 3
     size NUM_ENERGY_GROUPS
     subblock FREEBONDED NUM_ENERGY_GROUPS 5
-    subblock FREENONBONDED matrix_NUM_ENERGY_GROUPS 4
+    subblock FREENONBONDED matrix_NUM_ENERGY_GROUPS 6
     subblock FREESPECIAL NUM_ENERGY_GROUPS 12
     size NUM_EDS_STATES
-    subblock FREEEDS NUM_EDS_STATES 4
+    subblock FREEEDS NUM_EDS_STATES 6
+    size NUM_GAMD_GROUPS
+    subblock FREEGAMD NUM_GAMD_GROUPS 5 
     size NUM_LAMBDAS
     subblock FREEPRECALCLAM NUM_LAMBDAS 12
     subblock FREEABDIH 1 2
@@ -146,22 +148,6 @@ gamd_ed2 = GAMD[3][1]
 gamd_et2 = GAMD[3][2]
 gamd_kd2 = GAMD[3][3]
 gamd_kt2 = GAMD[3][4]
-gamd_dV3 = GAMD[4][5]
-gamd_ed3 = GAMD[4][1]
-gamd_et3 = GAMD[4][2]
-gamd_kd3 = GAMD[4][3]
-gamd_kt3 = GAMD[4][4]
-gamd_dV4 = GAMD[5][5]
-gamd_ed4 = GAMD[5][1]
-gamd_et4 = GAMD[5][2]
-gamd_kd4 = GAMD[5][3]
-gamd_kt4 = GAMD[5][4]
-gamd_dV5 = GAMD[6][5]
-gamd_ed5 = GAMD[6][1]
-gamd_et5 = GAMD[6][2]
-gamd_kd5 = GAMD[6][3]
-gamd_kt5 = GAMD[6][4]
-totunbiased = ENER[3] - ENER[50]
 # calculate the pressure in atm.
 pressu = PRESSURE[1] * 16.388453
 boxvol = VOLUME[1]

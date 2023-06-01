@@ -24,28 +24,28 @@ Where $K_0$ can be calculated as:
 \begin{equation}
 \label{lowerbound}
   \begin{aligned}
-K_0 = min(1.0, \frac{\sigma_0}{\sigma_V} · \frac{V_{max} - V_{min}}{V_{max} - V_{avg}}
+K_0 = min\left(1.0, \frac{\sigma_0}{\sigma_V} · \frac{V_{max} - V_{min}}{V_{max} - V_{avg}}\right)
     \end{aligned}
 \end{equation}
 When E is set to the lower bound or as:
 \begin{equation}
   \begin{aligned}
-K_0 = K_{0}^{"} \equiv (1 - \frac{\sigma_0}{\sigma_V})\frac{V_{max} - V_{min}}{V_{max} - V_{avg}}
+K_0 = K_{0}^{"} \equiv \left(1 - \frac{\sigma_0}{\sigma_V}\right)\frac{V_{max} - V_{min}}{V_{max} - V_{avg}}
   \end{aligned}
 \end{equation}
-When E is set to the upper bound. If $K_{0}^{"}$ is not found between 0 and 1 then $K_0$ is calculated with eq \eqref{lowerbound}. $\sigma_0$ corresponds to a user-specified upper limit for the $\sigma_{\Delta V}$ to ensure a narrow distribution of the boosting potential. In addition, GaMD offers different types of acceleration. One can accelerate the whole potential term, only the dihedral term or both by separate (dual boosting).
+When E is set to the upper bound. If $K_{0}^{"}$ is not found between 0 and 1 then $K_0$ is calculated with eq \eqref{lowerbound}. $\sigma_0$ corresponds to a user-specified upper limit for the $\sigma_{\Delta V}$ to ensure a narrow distribution of the boosting potential. In addition, GaMD offers different types of acceleration. One can accelerate the whole potential term, only the dihedral term, or both by separate (dual boosting).
 
-Recent improvements of the methodology have been developed, among them, the often referred as "selective" GaMD in which instead of adding the boosting potential to the potential energy term of the whole system, the boosting is selectively applied to a subset of the atoms of the system. These selective approaches allow for a stronger enhancement of the events of interest with no additional computational cost \cite{miao2020ligand, wang2020peptide, wang2022protein, wang2023ligand}. The cited methodologies allow to selectively accelerate small ligands, bound peptides and the interactions between two proteins. The selective GaMD methodology that will be used in this tutorial focuses on offering full flexibility in defining the regions that one wants to accelerate.
+Recent improvements of the methodology have been developed, among them, the often referred to as "selective" GaMD in which instead of adding the boosting potential to the potential energy term of the whole system, the boosting is selectively applied to a subset of the atoms of the system. These selective approaches allow for a stronger enhancement of the events of interest with no additional computational cost \cite{miao2020ligand, wang2020peptide, wang2022protein, wang2023ligand}. The cited methodologies allow to selectively accelerate small ligands, bound peptides and the interactions between two proteins. The selective GaMD methodology that will be used in this tutorial focuses on offering full flexibility in defining the regions that one wants to accelerate.
 
 In this tutorial we will use both the standard GaMD approach as well as a showcase of the selective GaMD functionality on the alanine dipeptide. All the boosting potentials used follow the dual boosting approach and the energy threshold is set to the lower bound, since it is the most commonly used setup. GROMOS is compatible with all the other approaches, and the tutorial can be run with any of them by simply adapting the input files.
 
 \subsubsection{Preparations}
-In this tutorial we will use alanine dipeptide as a test system. The alanine dipeptide is an extensively studied system that has been used to validate the different GaMD implementations \cite{pang2017gaussian, copeland2022gaussian, miao2015gaussian}. In this tutorial we will compute the potential of mean force (PMF) over the dihedrals $\phi$ and $\psi$ of the alanine dipeptide Figure~\ref{aladip}.
+In this tutorial we will use alanine dipeptide as a test system. The alanine dipeptide is an extensively studied system that has been used to validate the different GaMD implementations \cite{pang2017gaussian, copeland2022gaussian, miao2015gaussian}. In this tutorial we will compute the potential of mean force (PMF) over the dihedrals $\phi$ and $\psi$ of the alanine dipeptide (Figure~\ref{aladip}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=.3]{../07_tutorial_04/figures/aladip}
-\caption{Stick representation of alanine dipeptide with the $\phi$ and $\psi$ dihedrals marked.}
+\caption{Stick representation of alanine dipeptide with the $\phi$ and $\psi$ dihedrals highlighted.}
 \label{aladip}
 \end{figure}
  
@@ -54,7 +54,7 @@ The final equilibrated structure can be found in the directory \texttt{eq} with 
 
 \subsubsection{GaMD regions definition}
 The first step to perform GaMD simulations is to create a GaMD input file containing all the information of which groups of interactions to accelerate and how they need to be accelerated. 
-Go to the directory \texttt{gamd\_setup}, in there you will find two files, one with the definitions to run standard GaMD, \texttt{ala.gamd}, and one showcasing the selective GaMD functionality, \texttt{selective\_ala.gamd}. Take a look to the block \texttt{GAMDATOMS} of both files.
+On the directory \texttt{gamd\_setup}, you will find two files, one with the definitions to run standard GaMD, \texttt{ala.gamd}, and one showcasing the selective GaMD functionality, \texttt{selective\_ala.gamd}. Take a look to the block \texttt{GAMDATOMS} of both files.
 \begin{lstlisting}
 # Standard GaMD:
 -----------------------------
@@ -74,7 +74,7 @@ GAMDATOMS
 END
 ------------------------------
 \end{lstlisting}
-With \texttt{GAMDATOMS} you specify the number of groups of atoms to account for separately. The next line indicates the index of the first atom of the group, \texttt{INATOM}, the final atom, \texttt{FINATOM}, and an integer that will be assigned to that group, \texttt{AGROUP}, (groups of atoms with the same \texttt{AGROUP} index will be considered a single group). In the case of standard GaMD, only one set of atoms is defined. For selective GaMD, the user can define as many atom groups as desired, in the case of this tutorial, two atom groups are defined, one containing the solute (\texttt{AGROUP} = 1), and one containing the solvent (\texttt{AGROUP} = 2).
+With \texttt{GAMDATOMS} you specify the number of groups of atoms to account for separately. The next line indicates the index of the first atom of the group, \texttt{INATOM}, the final atom, \texttt{FINATOM}, and an integer that will be assigned to that group, \texttt{AGROUP}, (groups of atoms with the same \texttt{AGROUP} index will be considered a single group). In the case of standard GaMD, only one set of atoms is defined. For selective GaMD, the user can define as many atom groups as desired. In the case of this tutorial, two atom groups are defined, one containing the solute (\texttt{AGROUP} = 1), and one containing the solvent (\texttt{AGROUP} = 2).
 Now take a look at the second block of the \texttt{.gamd} files.
 \begin{lstlisting}
 # Standard GaMD:
@@ -126,7 +126,7 @@ GAMD
   0
 END
 \end{lstlisting}
-The fourth line specifies the general parameters for the GaMD simulation, such as the search algorithm to use (\texttt{SEARCH}), whether the dihedral term has to be accelerated by separate (\texttt{FORM}), whether the energy threshold used is an upper or lower bound (\texttt{THRESH}) and whether the search needs to be initialized (\texttt{NTIGAMDS}). For this tutorial we will accelerate dihedral and potential term by separate (dual boosting approach) and the energy threshold will be set at the lower bound (E = $V_{max}$). 
+The fourth line specifies the general parameters for the GaMD simulation, such as the search algorithm to use (\texttt{SEARCH}), whether the dihedral term has to be accelerated by separate (\texttt{FORM}), whether the energy threshold used is an upper or lower bound (\texttt{THRESH}), and whether the search needs to be initialized (\texttt{NTIGAMDS}). For this tutorial we will accelerate dihedral and potential term by separate (dual boosting approach) and the energy threshold will be set at the lower bound (E = $V_{max}$). 
 The next line contains the number of atom groups and interaction groups or acceleration groups defined in the gamd file.
 \texttt{DIHSTD} and \texttt{TOTSTD} correspond to the values of $\sigma_0$ for the dihedral term boosting and the potential term boosting respectively.  
 The variables ED, ET, KD and KT are the acceleration parameters that define the boosting potential that will be applied to the system. ED and ET correspond to the list of energy thresholds for the dihedral terms and the potential energy of the system respectively, while KD and KT correspond to the list of force constants of the boosting potential applied to the dihedral term and to the potential energy term. Since this is a search run, all the parameters can be set to 0, for a production run, this parameters will need to be updated for the ones found during the search. Since each acceleration region requires its own parameters, if more than one acceleration region is defined, one must provide extra ED, ET, KD and KT parameters.
@@ -168,7 +168,7 @@ $ tser @f phi_dihedral_tser.arg > phi.out
 \end{lstlisting}
 
 The argument files already contain the information needed to compute the dihedrals over time accounting for periodicity, providing values from -180 to 180 degrees.
-The next step is to extract the trajectory of the biasing potential used to then be able to reweight the obtained dihedral time series. This can be achieved by using the program \texttt{ene\_ana} in a similar fashion to how the acceleration parameters from the search were extracted. The values of interest is \texttt{totgamd\_dV} which contains the total boosting potential in $kJ/mol$, \texttt{totunbiased} which contains the total potential energy excluding the boosting potential and \texttt{totpot} which contains the total potential energy. The boosting potential for each acceleration region can also be extracted independently by adding \texttt{gamd\_dVi} to the ene\_ana property list  @prop with the \texttt{i} sub-index indicating the acceleration group of interest.
+The next step is to extract the trajectory of the biasing potential used to then be able to reweight the obtained dihedral time series. This can be achieved by using the program \texttt{ene\_ana} in a similar fashion to how the acceleration parameters from the search were extracted. The values of interest are \texttt{totgamd\_dV} which contains the total boosting potential in $kJ/mol$, \texttt{totunbiased} which contains the total potential energy excluding the boosting potential and \texttt{totpot} which contains the total potential energy. The boosting potential for each acceleration region can also be extracted independently by adding \texttt{gamd\_dVi} to the ene\_ana property list  @prop with the \texttt{i} sub-index indicating the acceleration group of interest.
 After obtaining the collective variables (CV) and biasing potential trajectories, the next step is to reweight and plot them. We will do this using both exponential reweighting and cumulant expansion to the second order.
 In the exponential reweighting, the time series of observed values of X (in this case the dihedral angles) sampled during the biased simulation R can be reweighted to the unbiased state Y using the following equation:
 
@@ -199,9 +199,9 @@ C_{2} = \langle \Delta V^2 \rangle - \langle \Delta V \rangle^2 = \sigma^{2}_{v}
 \end{equation}
 This can be achieved by using the pyreweight script that is provided in the \textttt{scripts} directory or that can be downloaded from its original repository \cite{miao2014improved}.
 
-The version provided in the \textttt{scripts} folder contains a small modification to provide the results in kJ/mol to ease the comparison to the results provided by GROMOS. The script takes as input a file with the CVs in columns and another file with the biasing potential with three columns, biasing in kJ/mol, time and biasing in kcal/mol. An example of how to run the script can be found on the \textttt{scripts} folder on the file \textttt{pyreweight\_command.txt}.
+The version provided in the \textttt{scripts} folder contains a small modification to provide the results in kJ/mol to ease the comparison to the results provided by GROMOS. The script takes as input a file with the CVs in columns and another file with the biasing potential with three columns, biasing in kJ/mol, time, and biasing in kcal/mol. An example of how to run the script can be found on the \textttt{scripts} folder on the file \textttt{pyreweight\_command.txt}.
 
-Because the performed trajectories are too short to obtain converged PMFs, the dihedral and energy trajectories of a 100ns run are provided in the subfolder \texttt{data}. The same analysis can be performed on the files provided there, producing the 2D-PMFs in figure \ref{aladip_pmf}:
+Because the performed trajectories are too short to obtain converged PMFs, the dihedral and energy trajectories of a 100 ns run are provided in the subfolder \texttt{data}. The same analysis can be performed on the files provided there, producing the 2D-PMFs in figure \ref{aladip_pmf}:
 
 \begin{figure}[H]
 \centering
@@ -209,5 +209,6 @@ Because the performed trajectories are too short to obtain converged PMFs, the d
 \caption{Potential of Mean Force (PMF) profiles over the $\phi$ and $\psi$ angles of the alanine dipeptide. A) Simulation using the standard GaMD approach reweighted with cumulant expansion to the second order. B) Simulation using the standard GaMD approach reweighted with exponential reweighing. C) Simulation using the selective GaMD approach reweighted with cumulant expansion to the second order. D) Simulation using the selective GaMD approach reweighted with exponential reweighing. }
 \label{aladip_pmf}
 \end{figure}
+
 
 
