@@ -1,0 +1,53 @@
+% this is the intro
+%\textcolor{red}{Here you would explain what problem you are tackling and briefly motivate your work.}
+%
+%\textcolor{red}{In this particular template, we have removed most of the usage examples which occur in \texttt{sample-document.tex} to provide a minimal template you can modify; however, we retain a couple of examples illustrating more unusual features of our templates/article class, such as the checklists, and information on algorithms and pseudocode.}
+%
+GROMOS\textsuperscript{TM} is an acronym of the GROningen MOlecular Simulation computer program package for the dynamic modelling of (bio)molecules, which has been developed since 1978 primarily as a research vehicle for methodological development \cite{wfvgn_35_years}. Written in the programming language C++, the latest version has a modular, object-oriented structure \cite{Schmid_2012}, which, together with extensive documentation \cite{volumes_1_to_9}, makes modification relatively easy. Readability of the code is prioritised over speed. The GROMOS code is freely available at \url{www.gromos.net}. The GROMOS software is to be distinguished from the GROMOS force fields for biomolecular systems. The development of the successive GROMOS force-field versions during the past 40 years has been summarised in \cite{wfvgn_35_years,Riniker_FCFF}. 
+Recent work showed that time saving approximations employed during force-field development had no effect on the parametrization in terms of agreement with experiment \cite{Diem_2020, Diem_2_2020}.
+The GROMOS software comes with a manual that consists of nine volumes. Volume 7 is a basic tutorial that introduces new users to the setup and analyses of molecular simulations with GROMOS \cite{volume_7}.
+The set of tutorials presented here is intended to build on these original tutorials released with GROMOS.
+
+%
+\subsection{Scope}
+%\textcolor{red}{Tutorials should endeavor to cover the specific task at hand, and also highlight how the steps might need to be modified (or additional care might need to be taken at particular points) to handle more general cases.}
+
+%\textcolor{red}{The scope of the tutorial, as well as the expected proficiencies / outcomes for researchers who complete the tutorial, should be clearly defined.
+%This will often happen in a specific section or subsection in the article itself.}
+
+The four tutorials presented here cover some of the methodological advances that have been implemented in GROMOS over the last few years and are not treated in the basic tutorials distributed with the software. 
+They address an advanced user who has some experience with MD simulations. Beginners in the field are recommended to start with the basic tutorial of GROMOS \cite{volume_7}. Each of the four current tutorials is based on an original publication and comes with its own learning objectives and expected outcome(s). 
+After completing tutorial 1 ``S2 order parameter restraining" the user should be able to
+\begin{enumerate}
+\item Prepare a simulation of a protein solvated in water.
+\item Understand how NMR restraints are handled in GROMOS.
+\end{enumerate}
+%
+After completing tutorial 2 ``Double decoupling method \& corrections for net-charge changes" the user should be able to
+\begin{enumerate}
+\item Prepare perturbation topologies for binding free energy calculations.
+\item Define distance restraints and perturbed distance restraints for simulations in GROMOS.
+\item Calculate binding free energies using the double decoupling method and extended-thermodynamic integration.
+\item Apply a post-simulation correction scheme to correct artifacted free-energies obtained from charge-changing perturbations.
+\end{enumerate}
+%
+After completing tutorial 3 ``Using HREMD and distance-field" the user should be able to
+\begin{enumerate}
+\item Setup a distance-field restraining potential-energy term.
+\item Perform umbrella sampling calculations in GROMOS using perturbed distance(-field) restraints.
+\item Extract the binding free energy from the potential of mean force.
+\end{enumerate}
+%
+After completing tutorial 4 ``Selective Gaussian accelerated MD (GaMD)" the user should be able to
+\begin{enumerate}
+\item Prepare GaMD acceleration input files.
+\item Perform GaMD parameter searches in GROMOS.
+\item Perform GaMD simulations in GROMOS.
+\item Extract, reweight and analyze GaMD simulations.
+\end{enumerate}
+%
+Due to the statistical-mechanical nature of the ensembles of molecular configurations, meaningful values of quantities are averages over configurations or trajectories. Individual trajectories are perfectly fine for instructional purposes such as in this tutorial, but are of little utility in ``real'' research settings, unless there is little or no variation within the configurational ensemble. 
+For most degrees of freedom of interest in bio-molecular systems this is certainly not the case. A simple means for generating replicates is to use different seeds of the random number generator for sampling the initial velocities at equilibration.
+
+
+

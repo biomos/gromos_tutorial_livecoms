@@ -1,0 +1,15 @@
+@topo ../../../topo/ala_dip_54a8.top
+@pbc r
+@prop tp%1:2,4,6,8
+@traj
+   ../aladip_gamd_selective_1.trc.gz  
+   ../aladip_gamd_selective_2.trc.gz  
+   ../aladip_gamd_selective_3.trc.gz  
+   ../aladip_gamd_selective_4.trc.gz
+   ../aladip_gamd_selective_5.trc.gz
+   ../aladip_gamd_selective_6.trc.gz 
+   ../aladip_gamd_selective_7.trc.gz 
+   ../aladip_gamd_selective_8.trc.gz 
+   ../aladip_gamd_selective_9.trc.gz
+   ../aladip_gamd_selective_10.trc.gz
+

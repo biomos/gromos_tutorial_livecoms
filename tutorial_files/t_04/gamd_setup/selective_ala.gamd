@@ -1,0 +1,15 @@
+TITLE
+GAMD by parts
+END
+GAMDATOMS
+2
+#  INATOM   FINATOM   AGROUP      
+        1        12       1
+       13      3840       2
+END
+GAMDGROUPS
+1
+# GROUP_1   GROUP_2   ACCELGROUP
+  1         1         1
+  1         2         1
+END

@@ -1,0 +1,5 @@
+
+@prop        gamd_ed1 gamd_et1 gamd_kd1 gamd_kt1
+@library     ../../../libs/ene_ana.md++.lib
+@en_files   
+       ../aladip_gamd_search_parts_4.tre.gz

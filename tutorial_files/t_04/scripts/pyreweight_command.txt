@@ -1,0 +1,4 @@
+# Running example for the reweightening script
+
+python PyReweighting-2D.py -cutoff 10 -input binXY.dat -Xdim -180 180 -discX 10 -Ydim -180 180 -discY 10 -Emax 33 -job amdweight_CE -weight weights.dat | tee -a reweight_variable.log
+

@@ -1,0 +1,5 @@
+@temp 300
+@x <CV traj>
+@vr totpot.dat
+@vy totunbiased.dat
+@bounds -180 180 10 # lower bound upper bound and number of bins 

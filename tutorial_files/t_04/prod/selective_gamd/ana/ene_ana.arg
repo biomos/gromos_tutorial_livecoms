@@ -1,0 +1,14 @@
+
+@prop        totgamd_dV totunbiased totpot
+@library     ../../../libs/ene_ana.md++.lib
+@en_files   
+   ../aladip_gamd_selective_1.tre.gz  
+   ../aladip_gamd_selective_2.tre.gz  
+   ../aladip_gamd_selective_3.tre.gz  
+   ../aladip_gamd_selective_4.tre.gz
+   ../aladip_gamd_selective_5.tre.gz
+   ../aladip_gamd_selective_6.tre.gz 
+   ../aladip_gamd_selective_7.tre.gz 
+   ../aladip_gamd_selective_8.tre.gz 
+   ../aladip_gamd_selective_9.tre.gz
+   ../aladip_gamd_selective_10.tre.gz
