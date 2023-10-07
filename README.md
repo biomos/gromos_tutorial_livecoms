@@ -14,7 +14,7 @@ An updated version of the manuscript containing a fourth tutorial can be found i
 [version\_1.1](https://github.com/hansenniels/gromos_tutorial_livecoms/tree/master/review_process/version_1.1).
 The tutorials are designed for users with some experience 
 in the application of molecular dynamics simulations. Therefore, we suggest to 
-carry out the basic tutorial first, that is available on www.gromos.net after registration.
+carry out the basic tutorial first, that is available on www.gromos.net.
 The GROMOS version required for carrying out the advanced tutorials was released on January 09, 2021.
 
 
