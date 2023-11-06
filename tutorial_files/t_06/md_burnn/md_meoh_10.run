@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# first we set some variables
+NAME=`whoami`
+PROGRAM=/home/radekc/GROMOS/GROMOS/gromosXX/gromosXX/BUILD/bin/md
+SIMULDIR=/pool/radekc/CD_lab_project/gromos_tutorial/gromos_tutorial_livecoms/tutorial_files/t_06/md_burnn
+
+# create temporary directory
+WORKDIR=/scratch/radekc/$$
+mkdir -p ${WORKDIR}
+cd       ${WORKDIR}
+
+# set the input files
+TOPO=${SIMULDIR}/../topo/meoh_54a7.top
+IUNIT=${SIMULDIR}/md_meoh_10.imd
+INPUTCRD=${SIMULDIR}/md_meoh_9.cnf
+QMMM=${SIMULDIR}/meoh.qmm
+
+#set the output files
+OUNIT=md_meoh_10.omd
+OUTPUTCRD=md_meoh_10.cnf
+OUTPUTTRX=md_meoh_10.trc
+OUTPUTTRE=md_meoh_10.tre
+
+# first command
+. /home/radekc/Python/anaconda3/etc/profile.d/conda.sh; conda activate spk_py30912; export OMP_NUM_THREADS=8 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/radekc/Python/anaconda3/envs/spk_py30912/lib; /home/poliak/Scripts/test_spk.py 
+
+
+MDOK=1
+
+${PROGRAM} \
+	@topo        ${TOPO} \
+	@conf        ${INPUTCRD} \
+	@input       ${IUNIT} \
+	@qmmm        ${QMMM} \
+	@fin         ${OUTPUTCRD} \
+	@trc         ${OUTPUTTRX} \
+	@tre         ${OUTPUTTRE}\
+	>            ${OUNIT}
+grep "finished successfully" ${OUNIT} > /dev/null || MDOK=0
+
+uname -a >> ${OUNIT}
+
+# compress some files
+gzip ${OUTPUTTRX}
+gzip ${OUTPUTTRE}
+
+# copy the files back
+OK=1
+cp ${OUNIT}               ${SIMULDIR} || OK=0
+cp ${OUTPUTCRD}           ${SIMULDIR} || OK=0
+cp ${OUTPUTTRX}.gz        ${SIMULDIR} || OK=0
+cp ${OUTPUTTRE}.gz        ${SIMULDIR} || OK=0
+
+# clean up after successful run
+if `test ${OK} -eq 0`; then
+  uname -a > mess;
+  echo 'cp failed for md_meoh, run 10' >> mess;
+  Mail -s "ERROR" ${NAME} < mess;
+  cd ${SIMULDIR};
+else
+  cd ${SIMULDIR};
+  rm ${WORKDIR}/*;
+  rmdir ${WORKDIR};
+fi
+
+# stop if MD was not succesfull
+if `test ${MDOK} -eq 0`; then
+  exit
+fi
+
+# perform last command (usually submit next job)

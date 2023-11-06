@@ -1,0 +1,11 @@
+@sys		md_meoh
+@bin            /home/radekc/GROMOS/GROMOS/gromosXX/gromosXX/BUILD/bin/md
+@dir            /pool/radekc/CD_lab_project/gromos_tutorial/gromos_tutorial_livecoms/tutorial_files/t_06/md_burnn
+@files
+  topo		../topo/meoh_54a7.top
+  input		md.imd
+  coord		../eq/eq_meoh_5.cnf
+  qmmm      meoh.qmm
+@template	mk_script.lib
+@version  md++
+@script		1 10

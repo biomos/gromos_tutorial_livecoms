@@ -1,0 +1,83 @@
+TITLE
+Exported from new Building Block Editor (browser based)
+END
+FORCEFIELD
+54A7
+END
+PHYSICALCONSTANTS
+# FPEPSI: 1.0/(4.0*PI*EPS0); (EPS0 is the permittivity of vacuum);
+  0.1389354E+03
+# HBAR: Planck's constant HBAR = H/(2* PI);
+  0.6350780E-01
+# SPDL: Speed of light (in nm/ps);
+  2.9979245800E05
+# BOLTZ: Boltzmann's constant
+  8.31441E-03
+END
+LINKEXCLUSIONS
+#nearest neighbour exclusions when linking
+#NRNE
+    2
+END
+MTBUILDBLSOLUTE
+# building block created using TopologyBuilder
+# by Radek Crha
+MeOH
+# Building block for MeOH with the explicit H atoms
+# number of atoms, number of preceding exclusions
+# NMAT NLIN
+    6    0
+# preceding exclusions
+#ATOM                               MAE MSAE
+# atoms
+#ATOM ANM  IACM MASS        CGMICGM MAE MSAE
+    1 CA     16    5   -0.03400   0   5    2    3    4    5    6
+    2 OB      3   16   -0.67400   0   4    3    4    5    6
+    3 HA1    21    1    0.10000   0   2    4    5
+    4 HA2    21    1    0.10000   0   1    5
+    5 HA3    21    1    0.10000   0   0
+    6 HB1    21    1    0.40800   1   0
+# bonds
+#  NB
+    5
+#  IB   JB  MCB
+    1    2   18
+    1    3   39
+    1    4   39
+    1    5   39
+    2    6    1
+# bond angles
+# NBA
+    7
+#  IB   JB   KB  MCB
+    2    1    3   11
+    2    1    4   11
+    2    1    5   11
+    3    1    4   10
+    3    1    5   10
+    4    1    5   10
+    1    2    6   12
+# improper dihedrals
+# NIDA
+    0
+#  IB   JB   KB   LB  MCB
+# dihedrals
+# NDA
+    1
+#  IB   JB   KB   LB  MCB
+    4    1    2    6   23
+# LJ exceptions
+# NEX
+    0
+#  IB   JB  MCB  NCO  IND  CON
+END
+
+XYPOSITION
+6
+    1         368.36         378.33
+    2         390.92         349.19
+    3         395.75         395.48
+    4         346.34         405.03
+    5         344.87         352.80
+    6         370.48         318.73
+END
