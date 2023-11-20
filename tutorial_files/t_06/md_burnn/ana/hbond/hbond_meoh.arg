@@ -1,5 +1,5 @@
-@topo		 ../../../topo/meoh_54a7.top
-@pbc		r
+@topo		    ../../../topo/meoh_54a7.top
+@pbc		    r
 @Hbparas        0.25 135
 @massfile       mass.file
 @AcceptorAtomsA 1:OB 

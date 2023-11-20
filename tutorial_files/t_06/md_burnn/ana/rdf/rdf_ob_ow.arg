@@ -1,5 +1,5 @@
 @topo   ../../../topo/meoh_54a7.top
-@pbc r
+@pbc    r
 @centre 1:OB 
 @with   s:OW  
 @cut    1.4
