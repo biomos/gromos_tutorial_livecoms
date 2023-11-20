@@ -1,6 +1,6 @@
 TITLE
 Filtered trajectory. Keeping
-* atoms within 0.55 of atoms 1:1-6 
+* atoms within 0.5 of atoms 1:1-6 
   using a chargegroup based cutoff
 
 END
