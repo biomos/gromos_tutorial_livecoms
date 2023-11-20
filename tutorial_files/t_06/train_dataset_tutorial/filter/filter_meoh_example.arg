@@ -1,0 +1,7 @@
+@topo       your path to the topology file
+@pbc        r cog
+@atoms      1:a
+@cutoff     0.55
+@pairlist   CHARGEGROUP
+@outformat  cnf
+@traj       your path(s) to the trajectory file(s)
