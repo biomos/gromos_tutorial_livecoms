@@ -1,9 +1,9 @@
 % Tutorial 06
 
 \subsection{Tutorial 6: NN(QM)/MM simulations with the BuRNN approach}
-The Buffer Region Neural Network (BuRNN) approach \cite{Lier2022BuRNN} is a hybrid quantum mechanics/molecular mechanics (QM/MM) \cite{Warshel1976QM/MM, Senn2009QM/MM} simulation method. The system is therefore partitioned into regions having different levels of theory, a QM and a classical MM region. 
+The Buffer Region Neural Network (BuRNN) approach \cite{Lier2022BuRNN} is a hybrid quantum mechanics/molecular mechanics (QM/MM) \cite{Warshel1976QM/MM, Senn2009QM/MM} simulation method. The system is therefore partitioned into regions having different levels of theory, a QM (inner) and a classical MM (outer) region. 
 
-In-between the two regions an additional buffer region is introduced to be treated at both levels of theory (Figure~\ref{BuRNN_scheme}, a). The interactions between the QM region (inner region) and the buffer are described by an atomistic neural networks (NN). 
+In-between the two regions an additional buffer region is introduced to be treated at both levels of theory (Figure~\ref{BuRNN_scheme}, a). The inner region and the interactions between the inner region and the buffer region are described by an atomistic neural network (NN) model.
 
 The total potential energy of the system is calculated as follows:
 
@@ -13,7 +13,7 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
- The energy difference of the first two terms is directly described by a neural network potential: 
+ The energy difference of the first two terms is then directly described by a neural network potential: 
  
 \begin{equation}
   \begin{aligned}
@@ -21,21 +21,24 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
- As a NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet,Schuett2019SPK}, a deep learning architecture implemented in the MD engine of GROMOS.
- 
-In this tutorial we will prepare training data and NN models for methanol and finally run BuRNN simulations based on the trained models.
+As an NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet}, a continuous filter convolutional NN. The deep learning architecture SchNetPack \cite{Schuett2019SPK} is implemented in the MD engine of GROMOS.
+
+
+In this tutorial, methanol in water will be used as a model system. In the context of BuRNN, methanol will be the inner region, while water molecules within a radius of 0.5 nm around the methanol will form the buffer region. The remaining water molecules will serve as the outer region. 
+
+We will learn how to install GROMOS with the interface to SchNetPack, generate a training data set, train the NN model and run the BuRNN simulation.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=.33]{../09_tutorial_06/figures/BuRNN_scheme}
-\caption{(a) BuRNN scheme with its three regions: Inner region (orange) described by quantum mechanics (QM), buffer region (blue) described by QM and classical molecular mechanics (MM), outer region (grey) described by MM. (b) Test system: methanol solvated in SPC water. Methanol therefore builds the inner region, two shells of water will be the buffer region, the rest of the water box serves as outer region.}
+\caption{(a) BuRNN scheme with its three regions: Inner region (orange) described by quantum mechanics (QM), buffer region (blue) described by QM and molecular mechanics (MM), outer region (gray) described by MM. (b) Test system: methanol solvated in SPC water. Methanol therefore is the inner region, approximately two shells of water are the buffer region, the rest of the water box builds the outer region.}
 \label{BuRNN_scheme}
 \end{figure}
 
 
 \subsubsection{Installation}
 \paragraph{Prerequisites}
-To compile and install GROMOS with the interface to SchNetPack (spk) to run NN models, you first need to have installed SchNetPack and the pybind11 library. The interface uses the pybind11 library to call the model evaluation functions in the Python code of SchNetPack. To install the SchNetPack and pybind11 library on your system, please follow their installation. Tested version of SchNetPack is 1.0.0 and pybind11 is 2.6.2.
+To compile and install GROMOS with the interface to SchNetPack (spk) to run NN models, you first need to have installed SchNetPack and the pybind11 library. The interface uses the pybind11 library to call the model prediction functions in the Python code of SchNetPack. To install the SchNetPack and pybind11 library on your system, please follow their installation. Tested version of SchNetPack is 1.0.0 and pybind11 v2.6.2.
 
 \paragraph{GPU acceleration}
 This part is optional to improve the efficiency of the simulations. The tasks in this tutorial are small enough to be run CPU-only in reasonable time. For the production runs this is inefficient since the training and evaluation of models on a GPU is usually many-folds faster. NN/MM MD simulations in GROMOS profit from this as well. Unfortunately, setting up your system to support the GPU acceleration is strongly architecture specific and is dependent on the installed CUDA and Pytorch versions. Please follow the installation instructions of CUDA and Pytorch to run tasks with the GPU acceleration.
@@ -61,7 +64,7 @@ python3-config --ldflags --embed
 
 for newer versions. An example of the \texttt{configure} script then could be:
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
-$./configure --enable-schnetpack PYFLAGS='-I/path/to/include/python3.7 -I/path/to/lib/python3.7/site-packages/pybind11/include' PYLDFLAGS='-L/path/to/lib/python3.7/config -L/path/to/lib -lpython3.7 -lcrypt -lpthread -ldl -lutil -lrt -lm'
+$ ./configure --enable-schnetpack PYFLAGS='-I/path/to/include/python3.7 -I/path/to/lib/python3.7/site-packages/pybind11/include' PYLDFLAGS='-L/path/to/lib/python3.7/config -L/path/to/lib -lpython3.7 -lcrypt -lpthread -ldl -lutil -lrt -lm'
 \end{lstlisting}
 
 Further steps follow the standard compilation:
