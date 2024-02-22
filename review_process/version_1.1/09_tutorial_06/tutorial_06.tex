@@ -110,57 +110,75 @@ For methanol we specify all methanol atoms as filtering centers (\texttt{@atoms 
 We provide an example of two \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/separated_cnf_files}{configuration files} (\texttt{train\_database\_tutorial/separated\_cnf\_files}) which will be further used in this tutorial. An example of the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/filter/filter_meoh_example.arg}{argument file} for \texttt{filter} is provided (\texttt{filter/filter\_meoh\_example.arg}).
 
 \paragraph{QM calculations}
-In this part we will mainly focus on the concept of QM geometry optimization (GO) and single point calculations (SP) in the context of BuRNN.
-Once we have the coordinates of the QM zone, the QM energy minimization (GO) will optimize the atomic positions to find the local minimum of the QM potential energy surface. This calculation will not only find the local energy minimum, but also connects the classical snapshots with the optimal QM conformations and thus represents sufficient part of the conformational space of the system. We will therefore include all steps into the training dataset, but we need to be aware that the training data set will be significantly increased in size. A lot of similar structures will be present in the end of the minimization and therefore clustering before proceeding with the next step would be recommended.
+In this part we mainly focus on the concept of QM geometry optimization (GO) and single point calculations (SP) in the context of BuRNN. Once we have the coordinates of the IPB region, GO will optimize the atomic positions to find the local minimum of the QM potential energy surface. This calculation will not only find the local energy minimum but also connects the classical snapshots with the optimal QM conformations and thus represents a sufficient part of the conformational space of the system. Therefore we include all the optimization steps into the training dataset, but we have to be aware that the training dataset will be significantly increased in size. A lot of similar structures will be present at the end of the minimization and thus clustering before proceeding with the next step is recommended. We use MOPAC with the following keywords to perform the GO:
 
-For each (remaining) energy minimization steps, a single point (SP) QM calculation is required to receive the associated QM energy and forces. The SP calculation is not only done for the whole QM zone (inner + buffer region), but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer only). Furthermore, the geometry of water molecules in the buffer region need to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm\cite{RYCKAERT1977SHAKE}.
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) CHARGE=0
+\end{lstlisting}
 
-We will use the MOPAC software and run the QM calculations via the \texttt{mopac} module. Any other QM software can be used and any level of QM theory is possible.
+For each (remaining) optimization step, a single point (SP) QM calculation is required to receive the associated QM energy and gradients (forces). The SP calculation is not only done for the IPB region but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer region only). Furthermore, the geometry of water molecules in the buffer region has to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm\cite{RYCKAERT1977SHAKE}. The following MOPAC keywords are used for the SP calculations:
+
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) 1SCF CHARGE=0
+\end{lstlisting}
+
+The whole process of GO and subsequent SP calculations is automated by a self-written Python module. The examples of the \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/MOPAC_minimzation_files}{GO outputs} (\texttt{MOPAC\_minimzation\_files}) and \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/QM_dataset_example}{SP outputs} (\texttt{QM\_dataset\_example}) are provided. GO was performed for two previously mentioned MD configurations. However, the size of the data set increased to 860 configurations after including the GO optimization steps.
+
 
 \paragraph{Building a training database}
-In this chapter we will explain how to build the ASE (atomic simulation environment) \cite{Larsen2017ASE} database from the previously calculated energies and forces of the snapshots. 
-
-We will use the \texttt{additional\_spk\_utils} module for storing the relevant properties and metadata in the database. The absolute energies of the complex (inner + buffer region) and buffer, the energy differences between the two and the differences between the forces. Additionally we store reference energies (energies in vacuum) for all components in the QM zone separately. In our example it would be the energy of one methanol molecule in vacuum and of one water molecule in vacuum. 
-
-To calculate the interaction energy between inner region and buffer region, the reference energies are subtracted. Note that the number of water molecules in the buffer region has to be multiplied with the reference energy of one water molecule.
+In this chapter we will explain how to build the ASE (atomic simulation environment) \cite{Larsen2017ASE} database from the previously calculated energies and forces of the snapshots. The procedure is described in more detail in the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/tutorial_v2.ipynb}{jupyter notebook}. The \texttt{additional\_spk\_utils} module will be used for storing the relevant properties and metadata in the ASE database. 
 
 
 \paragraph{Model training}
-The last step before running BuRNN simulations is the NN model training. In the previous parts, the ASE database was created based on structures from QM energy minimizations and SP calculations. We now use SchNetPack for training the models as this NN model is also integrated in the BuRNN simulation engine.  
+The last step before running BuRNN simulations is the NN model training. In the previous parts, the ASE database was created based on structures from QM GO and SP calculations. We will now use SchNetPack for training of the example NN model. Due to the significant computational requirements of the NN model training we prepared fully trained \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/models}{NN models} in advance for you, which you can all find in the \texttt{models} directory. 
 
-For the model training we use two scripts, a python \texttt{spk\_run\_standard.py} and a bash \texttt{spk\_run.sh} script. The python script loads the data from the previously prepared ASE database and splits it into training, validation and test set (we will use 80, 10, 10\% of the dataset). After preparing the data, the model can be built and trained in three steps: defining the input modules, building a model representation and defining an output module.
+The SchNet model \cite{Schuett2018SchNet} is a convolutional neural network (CNN) with a continuous filter. It is very similar to the common CNNs used in image recognition. In contrast to images, molecules can not be described by the discrete matrix of pixels and thus the continuous filter is applied instead of a discrete one. The SchNet model is composed of two NNs. The main one is responsible for the prediction of the given property itself (input is the vector of atomic numbers for the given structure). The second one generates the filter for the convolution (input: positions of the individual atoms of the given structure). The main NN is divided into three blocks. The first is the embedding layer which creates the feature vectors for the individual atoms within the structure (therefore the whole structure is represented by the 2D matrix of shape: number of atom-wise features, number of atoms). The second part of the model is the series of the interaction blocks. One interaction block contains one convolutional layer. This block is responsible for creating the representation of the system. The last part is the output module which predicts the given property of the structure (in our case energy).
 
-Many parameters have to be set; we use the bash script to call the python 
-\texttt{spk\_run} script and define the paths and all the relevant (hyper)parameters.
-Following parameters are defined in our example training:
+For the model training we use two scripts, a python \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/spk_run.py}{\texttt{spk\_run.py}} and a bash \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/train.sh}{\texttt{train.sh}} script which runs the python script with all the specified arguments. The python script loads the data from the previously prepared ASE database (argument datapath) and splits it into training, validation and test set (we will use 80, 10, 10\% of the dataset; argument split). The NN model is built by setting training hyperparameters. It is reasonable to use the default values to start with the training and then optimize them. The number of atom-wise features and the number of interaction blocks are the most important hyperparameters of the SchNet architecture, as they define the model complexity and therefore the precision and computational costs. In our case we will train very small models (arguments features and interactions) which will be trained only for two epochs (argument n\_epochs). The complete list of arguments (hyperparameters) for the \texttt{spk\_run.py} is listed in the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/tutorial_v2.ipynb}{jupyter notebook}. The following parameters are defined in our example training:
 \begin{enumerate}
-    \item[-] property = property to be predicted by the model (default 'energy')
-    \item[-] derivative = derivative of the property to be predicted (default 'forces')
-    \item[-] rho = weigth factor for the property and derivative, respectively (default (0.01, 0.99))
+    \item[-] property = property to be predicted by the model (default energy)
+    \item[-] derivative = derivative of the property to be predicted
+    \item[-] rho = weight factor for the property and derivative, respectively
     \item[-] split = determines how many training, validation and test data will be selected, the first value for training data size, the second for validation data size, the rest of the dataset is used for the model evaluation (default (None, None))
     \item[-] batch\_size = batch size (default 8)
-    \item[-] device = cpu or cuda (default 'cuda')
     \item[-] n\_epochs = maximum number of training epochs (default 5000)
     \item[-] lr = learning rate (default 0.0001)
-    \item[-] lr\_patience = learning rate will be decreased after the certain number of epochs without improvement of the model (default 10)
+    \item[-] lr\_patience = learning rate will be decreased after the certain number of epochs without improvement of the model (default 25)
     \item[-] lr\_min = minimal learning rate, when the value is reached, the training process is stopped (default 1e-06)
-    \item[-] cutoff = cutoff for long-range interactions (default 100.0)
-    \item[-] num\_gaussians = number of gaussians to describe (default 25)
+    \item[-] cutoff = cutoff for long-range interactions (default 5.0)
+    \item[-] num\_gaussians = number of gaussians to describe (default 50)
     \item[-] features = number of atom-wise features (default 128)
     \item[-] interactions = number of interaction blocks (default 3)
 \end{enumerate}
 
-As we train on energies and forces, a combined loss function for optimizing the weight parameters will be used that predicts and obtains forces automatically as derivatives of the energies. For that a loss weight (parameter called rho) is introduced to control the trade-off between energy loss and force loss.
+As we train on energies and forces, a combined loss function for optimizing the weight parameters will be used that predicts and obtains forces automatically as derivatives of the energies. For that, a loss weight (argument rho) is introduced to control the trade-off between energy loss and force loss.
 
-It is reasonable to use the default values to start with the training and then optimize them. The number of atom-wise features and the number of interaction blocks are the most important hyperparameters of the SchNet architecture, as they define the model complexity and therefore the precision and computational costs. 
+The \texttt{train.sh} bash script, which calls the python script for training, is written as follows:
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+#!/bin/bash
 
-The training will produce several files in the model-path directory. The model, the evaluation file, a training log file, a file with the random split, a checkpoint file and a json file with the model settings. The checkpoint file is written periodically and can be used to restart the training.   
+datapath= your path to the ASE database
+modelpath= your path where the model will be stored
 
-For the BuRNN simulations we provided fully trained models that you can find in the 
-\texttt{path/provided\_models} directory.
+# model training
+python spk_run.py train schnet custom $datapath $modelpath --property energy --derivative forces --rho property=0.01 derivative=0.99 --split 688 86 --batch_size 8 --n_epochs 2 --lr 0.0001 --lr_patience 10 --lr_min 1e-06 --cutoff 100.0 --num_gaussians 50 --features 32 --interactions 1
+\end{lstlisting}
 
-\paragraph{Model evaluation}
-??
+The script also calls the \texttt{spk\_run.py} in the evaluation mode which evaluates the model against the test data:
+
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+# model evaluation
+python spk_run.py eval $datapath $modelpath --split test --batch_size 1
+\end{lstlisting}
+
+Run the script to train and evaluate the example model:
+
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+$ ./train.sh
+\end{lstlisting}
+
+The training will produce several files in the model-path directory. The model, the evaluation file, a training log file, a file with the random split, a checkpoint file and a json file with the model settings. The checkpoint file is written periodically and can be used to restart the training. For BuRNN simulations, we need to train two NN models, as we use the second model to evaluate the predictions of the first model.
+
 
 
 \subsubsection{BuRNN simulations}
