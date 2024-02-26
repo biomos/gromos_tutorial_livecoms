@@ -181,8 +181,8 @@ The training will produce several files in the model-path directory. The model, 
 
 
 
-\subsubsection{BuRNN simulations}
-For a BuRNN simulation, the QM and buffer regions have to be defined. Therefore the QM atoms have to be specified and the buffer region has to be adjusted by setting a cut-off around the QM region. This information together with other specifications will be stored in an additional input file \texttt{meoh.qmm}:
+\subsubsection{BuRNN simulation}
+For the BuRNN simulation, the QM and buffer regions have to be defined. Therefore, the QM atoms have to be specified and the buffer region has to be adjusted by setting a cutoff around the QM region. This information together with other specifications will be stored in an additional input file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/meoh.qmm}{\texttt{meoh.qmm}} in the \texttt{md\_burnn} directory:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 TITLE
@@ -190,7 +190,7 @@ qmmm specification file for BuRNN
 END
 QMUNIT
 # QMULEN    QMUENE    QMUFOR    QMUCHR
-     0.1     4.184     41.84       1.0
+     0.1     4.184    -41.84       1.0
 END
 \end{lstlisting}
 
@@ -208,14 +208,19 @@ END
 NNVALID
 /path/to/best_model2
 # NUMSTP THRSH FCON 
-       1   5.0  0.0
+       1 4.184  0.0
 END
 \end{lstlisting}
 
-Having created the NN models described in the previous chapters, the paths to the models have to be specified and some parameters for the model evaluation. The \texttt{NNDEVICE} block decides if it should be run on cuda (gpu) or cpu. If you specify auto, it will first try to run with cuda, if it is not available switch to cpu. 
-In the next block, \texttt{NNMODEL}, the path to the best model is given. The model type is set to 0 which means that BuRNN will be run with a single NN evaluation on the previously trained energy differences. It would also be possible to calculate differences just during the simulation in a combined model or even calculate it with QM on the fly by setting it to 1. The learning type is set to 1 for a standard calculation. 
-The \texttt{NNVALID} block is optional and used if a validation model is evaluated to compare the energy differences to the individually trained \texttt{NNMODEL}. In case, we have to set the path to the validation model. The two NNs will be compared at every nth step (\texttt{NUMSTP}), the difference will be deemed accurate if it is below the threshold (\texttt{THRSH}). If it’s above the threshold, the force constant (\texttt{FCON}) can be set positive which pushes back the atoms to a configuration that agrees better with both models. 
-We set the threshold to 5 kJ/mol which is above but close to the chemical accuracy of 1 kcal/mol and calculate the difference between the models at every time step. This can be easily changed when we need to generate coordinates that are not included in the training set or when the simulation is not stable yet. When we have a stable simulation, we can e.g. check the differences at about every 100th step.
+The paths to the NN models have to be specified. Moreover, additional parameters have to be set. The \texttt{NNDEVICE} block decides if it should be run on CUDA (GPU) or CPU. If you specify auto, it will try to find a GPU first, if it is not available, a CPU will be used. 
+
+In the next block, \texttt{NNMODEL}, the path to the prediction model is specified. The model type (\texttt{MT}) is set to 0, meaning that BuRNN will be run with a single NN evaluation on the previously trained energy differences. It would also be possible to calculate differences just during the simulation in a combined model or even calculate it with QM on the fly by setting it to 1. The learning type (\texttt{LT}) is set to 1 for a standard calculation. 
+
+The \texttt{NNVALID} block is optional and used if a second (validation) model is evaluated during the simulation. In this case, we use a validation model which also predicts the energy of the given configuration. The predictions of the two individually trained models are compared to estimate the robustness of the prediction. The models have to be trained with the same hyperparameters on the same data set, but with a different random split. 
+
+The models will be compared at every nth step (\texttt{NUMSTP}), and the energy difference will be deemed accurate if it is below the threshold (\texttt{THRSH}). If it’s above the threshold, the force constant (\texttt{FCON}) can be set positive which pushes back the atoms to a configuration that agrees better with both models. 
+
+We set the threshold to 4.184 kJ/mol, which reflects the chemical accuracy of 1 kcal/mol. The difference between the models are calculated at each time step (\texttt{NUMSTP=1}). This can be easily changed if we need to generate coordinates that are not included in the training set or if the simulation is not stable yet. Once we have a stable simulation, we can e.g. check the differences only every 100th step.
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 QMZONE
@@ -230,8 +235,8 @@ QMZONE
    1 MeOH   HB1        6     1      0
 END
 BUFFERZONE
-# CHG MULT CUT-OFF 
-    0    1     0.5
+# CHG MULT CUTOFF 
+    0    1    0.5
 # RESIDUE   ATOM     QMI   QMZ   QMLI
    1 SOLV   OW         7     8     0
    1 SOLV   HW1        8     1     0
@@ -243,9 +248,9 @@ BUFFERZONE
 END
 \end{lstlisting}
 
-These blocks finally contain the atoms that are part of the inner region (\texttt{QMZONE}) and might be part of the buffer (\texttt{BUFFERZONE}). In the first line of both blocks we specify charge and multiplicity of the species, in the \texttt{BUFFERZONE} block we also define the cut-off which we chose to be 0.5 nm. According to the cut-off size, the atoms that are included in the \texttt{BUFFERZONE} block will become buffer atoms as soon as they cross the cut-off during the simulation.
+These blocks finally contain the atoms that are part of the inner region (\texttt{QMZONE}) and might be part of the buffer (\texttt{BUFFERZONE}). In the first line of both blocks we specify the charge and multiplicity of the given zone. In the \texttt{BUFFERZONE} block we also define the cutoff which we choose to be 0.5 nm. According to the cutoff size, the atoms that are included in the \texttt{BUFFERZONE} block will become buffer atoms as soon as they cross the cutoff during the simulation.
 
-Next to the separate input file, the \texttt{meoh.imd} file requires a \texttt{QMMM} block:
+In addition to the separate input file, the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md.imd}{\texttt{md.imd}} file requires a \texttt{QMMM} block:
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 QMMM
 # NTQMMM NTQMSW RCUTQM NTWQMMM QMLJ QMCON      
@@ -255,14 +260,11 @@ QMMM
 END
 \end{lstlisting}
 
-Most parameters are only relevant for conventional QM/MM simulations and will therefore not be explained in detail.
-Setting the first parameter, \texttt{NTQMMM=1}, QM/MM hybrid simulations are turned on (with mechanical embedding). \texttt{NTQMSW} further determines which software will be used for the QM calculation. If \texttt{NTQMSW=5}, instead of a QM package (1-4), SchNetPack will be called. The cut-off determined by \texttt{RCUTQM} is only relevant for electrostatic or polarizable embedding using QM packages. \texttt{NTWQMMM} can be used if QM/MM related data should be written out every nth step to a separate trajectory. For BuRNN simulations we don’t want to calculate LJ between QM atoms and set distance restraints in the QM zone, therefore \texttt{QMLJ=0} and \texttt{QMCON=0}. With \texttt{MMSCALE} we can scale MM charges (by a scaling factor), but if \texttt{MMSCALE<0} no scaling is applied.
+Most of the parameters are only relevant for conventional QM/MM simulations and will therefore not be explained in detail.
+QM/MM hybrid simulations (with mechanical embedding) are enabled by setting the first parameter \texttt{NTQMMM=1}. \texttt{NTQMSW} determines which software will be used for the QM calculation. If \texttt{NTQMSW=5}, instead of a QM package (1-4), SchNetPack (for the NN evaluation) will be called. The cutoff determined by \texttt{RCUTQM} is only relevant for electrostatic or polarizable embeddings used by QM packages. \texttt{NTWQMMM} can be used if QM/MM related data should be written to a separate trajectory every nth step. For BuRNN simulations we do not want to calculate LJ between QM atoms \texttt{QMLJ=0}. Constraining the bond lengths in the QM zone is optional (\texttt{QMCON}). With \texttt{MMSCALE} we can scale MM charges (by a scaling factor), but if \texttt{MMSCALE<0} no scaling is applied.
 
-%Provide following files:
-%meoh.qmm
-%meoh.imd
-%mk_script.arg
-%mk_script.lib (depending on the environment, activation of libs)
+In analogy to Tutorial 1 job scripts can be generated with the \textt{mk\_script} program. The argument file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md_mk_script.arg}{\texttt{md\_mk\_script.arg}} is also provided for you. Finally, you can execute the run files.
+
 
 \subsubsection{BuRNN (example) analysis}
 The trajectories created from a BuRNN simulation are the same as from plain MD simulations, meaning that we can do any analysis.
