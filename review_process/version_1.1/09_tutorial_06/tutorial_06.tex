@@ -267,19 +267,21 @@ In analogy to Tutorial 1 job scripts can be generated with the \textt{mk\_script
 
 
 \subsubsection{BuRNN (example) analysis}
-The trajectories created from a BuRNN simulation are the same as from plain MD simulations, meaning that we can do any analysis.
+The trajectory files produced by the BuRNN simulation are the same as those produced by the standard MD simulation in GROMOS, meaning that we can perform any analysis. Here we decided to show hydrogen bonds and the radial distribution function (rdf) between the methanol treated at the QM level and the MM water molecules around. The argument files \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/hbond/hbond_meoh.arg}{hbond\_meoh.arg} and \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/rdf/rdf_ob_ow.arg}{rdf\_ob\_ow.arg} for the GROMOS programs \texttt{hbond} and \texttt{rdf} are provided in the \texttt{ana} directory. 
+The results can be seen in Figure~\ref{BuRNN_ana}.
 
-Here we decided to show hydrogen bonds that are formed between the methanol treated at the QM level and the MM waters around. It is done as follows:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.66]{../09_tutorial_06/figures/burnn_livecoms_v2.png}
+\caption{\textbf{BuRNN simulation analysis. (a)} The number of hydrogen bonds formed between methanol and water for each snapshot of the trajectory. \textbf{(b)} Radial distribution function between the methanol's oxygen and all the oxygen atoms of the water molecules. The results are based on a 2 ns BuRNN simulation of the methanol on water.}
+\label{BuRNN_ana}
+\end{figure}
 
-\begin{lstlisting}
-$ hbond @f hbond_meoh.arg
-\end{lstlisting}
 
-(further explanation what to do with the hbond output?)
 
 \subsubsection{Advanced options}
-\paragraph{Including a charge model}
-For running BuRNN simulations with dynamic QM charges, charges first need to be calculated with the QM method of choice and included in the training dataset. A separate NN has to be trained for the charges. SchNet was therefore adapted and the version can be found in this repository: https://github.com/juliawestermayr/schnetpack.
+\paragraph{Charge model}
+For running BuRNN simulations with dynamic QM charges, charges first need to be calculated with the QM method of choice and included in the training dataset. A separate NN has to be trained for the charges. SchNet was therefore adapted and the version can be found in \href{https://github.com/juliawestermayr/schnetpack}{this repository}.
 In the \texttt{charge.qmm} file the \texttt{NNCHARGE} block has to be added. 
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
@@ -289,6 +291,8 @@ NNCHARGE
        1
 END
 \end{lstlisting}
-This block contains the path to the NN charge model and that the charges should be updated at every nth step (\texttt{NUMSTP}). 
+This block contains the path to the NN charge model and at which nth step (\texttt{NUMSTP}) the charges should be updated.
+
+Including a charge model was e.g. relevant for the hexa-aqua iron, the model system of the original BuRNN paper \cite{Lier2022BuRNN}.
 
 %\paragraph{Adaptive sampling}
