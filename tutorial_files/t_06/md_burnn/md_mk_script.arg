@@ -1,6 +1,6 @@
 @sys		md_meoh
-@bin            /home/radekc/GROMOS/GROMOS/gromosXX/gromosXX/BUILD/bin/md
-@dir            /pool/radekc/CD_lab_project/gromos_tutorial/gromos_tutorial_livecoms/tutorial_files/t_06/md_burnn
+@bin            path to /gromosXX/BUILD/bin/md
+@dir            path to /t_06/md_burnn
 @files
   topo		../topo/meoh_54a7.top
   input		md.imd
