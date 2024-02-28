@@ -70,8 +70,8 @@ MISCELLANEOUS
 #                      e.g.: ssub -s moose <script template>
 #                   
 # TYPE      TEMPLATE
-workdir     \/scratch\/radekc\/\$\$
-firstcommand . /home/radekc/Python/anaconda3/etc/profile.d/conda.sh; conda activate spk_py30912; export OMP_NUM_THREADS=8 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/radekc/Python/anaconda3/envs/spk_py30912/lib; /home/poliak/Scripts/test_spk.py
+workdir     \$\{SIMULDIR\}
+firstcommand . your path to /Python/anaconda3/etc/profile.d/conda.sh; conda activate <your SPK environment>; export OMP_NUM_THREADS=8 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:<your path to>/Python/anaconda3/envs/<your SPK environment>/lib; your path to spk.py
 lastcommand ./%system%_%number%.run
 END
 LINKADDITION

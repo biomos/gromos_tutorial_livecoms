@@ -6,17 +6,17 @@ QMUNIT
 # QMUENE: conversion factor for energy units of the model
 # QMUFOR: conversion factor for force units of the model
 # QMULEN    QMUENE    QMUFOR    QMUCHR
-     0.1   4.184  -41.84     1.0
+     0.1     4.184    -41.84       1.0
 END
 NNDEVICE
 cuda
 END
 NNMODEL
-/pool/radekc/CD_lab_project/gromos_tutorial/gromos_tutorial_livecoms/tutorial_files/t_06/models/prediction_model/best_model
+path to /t_06/models/prediction_model/best_model
 0 1
 END
 NNVALID
-/pool/radekc/CD_lab_project/gromos_tutorial/gromos_tutorial_livecoms/tutorial_files/t_06/models/validation_model/best_model
+path to /t_06/models/validation_model/best_model
 1 4.184 0
 END
 QMZONE
