@@ -116,7 +116,7 @@ In this part we mainly focus on the concept of QM geometry optimization (GO) and
 PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) CHARGE=0
 \end{lstlisting}
 
-For each (remaining) optimization step, a single point (SP) QM calculation is required to receive the associated QM energy and gradients (forces). The SP calculation is not only done for the IPB region but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer region only). Furthermore, the geometry of water molecules in the buffer region has to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm\cite{RYCKAERT1977SHAKE}. The following MOPAC keywords are used for the SP calculations:
+For each (remaining) optimization step, a single point (SP) QM calculation is required to receive the associated QM energy and gradients (forces). The SP calculation is not only done for the IPB region but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer region only). Furthermore, the geometry of water molecules in the buffer region has to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm \cite{RYCKAERT1977SHAKE}. The following MOPAC keywords are used for the SP calculations:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) 1SCF CHARGE=0
@@ -267,12 +267,12 @@ In analogy to Tutorial 1 job scripts can be generated with the \textt{mk\_script
 
 
 \subsubsection{BuRNN (example) analysis}
-The trajectory files produced by the BuRNN simulation are the same as those produced by the standard MD simulation in GROMOS, meaning that we can perform any analysis. Here we decided to show hydrogen bonds and the radial distribution function (rdf) between the methanol treated at the QM level and the MM water molecules around. The argument files \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/hbond/hbond_meoh.arg}{hbond\_meoh.arg} and \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/rdf/rdf_ob_ow.arg}{rdf\_ob\_ow.arg} for the GROMOS programs \texttt{hbond} and \texttt{rdf} are provided in the \texttt{ana} directory. 
+The trajectory files produced by the BuRNN simulation are the same as those produced by the standard MD simulation in GROMOS, meaning that we can perform any analysis. Here we decided to show hydrogen bonds and the radial distribution function (rdf) between the methanol treated at the QM level and the MM water molecules around. The argument files \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/hbond/hbond_meoh.arg}{\texttt{hbond\_meoh.arg}} and \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/ana/rdf/rdf_ob_ow.arg}{\texttt{rdf\_ob\_ow.arg}} for the GROMOS programs \texttt{hbond} and \texttt{rdf} are provided in the \texttt{ana} directory. 
 The results can be seen in Figure~\ref{BuRNN_ana}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=.66]{../09_tutorial_06/figures/burnn_livecoms_v2.png}
+\includegraphics[scale=.66]{../09_tutorial_06/figures/BuRNN_ana.png}
 \caption{\textbf{BuRNN simulation analysis. (a)} The number of hydrogen bonds formed between methanol and water for each snapshot of the trajectory. \textbf{(b)} Radial distribution function between the methanol's oxygen and all the oxygen atoms of the water molecules. The results are based on a 2 ns BuRNN simulation of the methanol on water.}
 \label{BuRNN_ana}
 \end{figure}
