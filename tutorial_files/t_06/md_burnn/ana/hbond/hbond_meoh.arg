@@ -1,0 +1,19 @@
+@topo		    ../../../topo/meoh_54a7.top
+@pbc		    r
+@Hbparas        0.25 135
+@massfile       mass.file
+@AcceptorAtomsA 1:OB 
+@AcceptorAtomsB s:a 
+@DonorAtomsA    1:HB1 
+@DonorAtomsB	s:a
+@traj
+../../md_meoh_1.trc.gz
+../../md_meoh_2.trc.gz
+../../md_meoh_3.trc.gz
+../../md_meoh_4.trc.gz
+../../md_meoh_5.trc.gz
+../../md_meoh_6.trc.gz
+../../md_meoh_7.trc.gz
+../../md_meoh_8.trc.gz
+../../md_meoh_9.trc.gz
+../../md_meoh_10.trc.gz

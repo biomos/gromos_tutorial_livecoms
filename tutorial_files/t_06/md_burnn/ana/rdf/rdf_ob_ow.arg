@@ -1,0 +1,16 @@
+@topo   ../../../topo/meoh_54a7.top
+@pbc    r
+@centre 1:OB 
+@with   s:OW  
+@cut    1.4
+@grid   100
+@traj  ../../md_meoh_1.trc.gz
+       ../../md_meoh_2.trc.gz
+       ../../md_meoh_3.trc.gz
+       ../../md_meoh_4.trc.gz
+       ../../md_meoh_5.trc.gz
+       ../../md_meoh_6.trc.gz
+       ../../md_meoh_7.trc.gz
+       ../../md_meoh_8.trc.gz
+       ../../md_meoh_9.trc.gz
+       ../../md_meoh_10.trc.gz
