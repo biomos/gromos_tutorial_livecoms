@@ -71,7 +71,7 @@ MISCELLANEOUS
 #                   
 # TYPE      TEMPLATE
 workdir     \$\{SIMULDIR\}
-firstcommand . your path to /Python/anaconda3/etc/profile.d/conda.sh; conda activate <your SPK environment>; export OMP_NUM_THREADS=8 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:<your path to>/Python/anaconda3/envs/<your SPK environment>/lib; your path to spk.py
+firstcommand . ./env.sh
 lastcommand ./%system%_%number%.run
 END
 LINKADDITION

@@ -1,6 +1,6 @@
 @sys		md_meoh
-@bin            path to /gromosXX/BUILD/bin/md
-@dir            path to /t_06/md_burnn
+@bin            /path/to/gromosXX/bin/md
+@dir            /path/to/t_06/md_burnn
 @files
   topo		../topo/meoh_54a7.top
   input		md.imd
