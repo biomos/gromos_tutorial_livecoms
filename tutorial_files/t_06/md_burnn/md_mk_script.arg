@@ -1,0 +1,11 @@
+@sys		md_meoh
+@bin            path to /gromosXX/BUILD/bin/md
+@dir            path to /t_06/md_burnn
+@files
+  topo		../topo/meoh_54a7.top
+  input		md.imd
+  coord		../eq/eq_meoh_5.cnf
+  qmmm      meoh.qmm
+@template	mk_script.lib
+@version  md++
+@script		1 10

@@ -1,6 +1,7 @@
 % Tutorial 06
 
 \subsection{Tutorial 6: NN(QM)/MM simulations with the BuRNN approach}
+
 The Buffer Region Neural Network (BuRNN) approach \cite{Lier2022BuRNN} is a hybrid quantum mechanics/molecular mechanics (QM/MM) \cite{Warshel1976QM/MM, Senn2009QM/MM} simulation method. The system is therefore partitioned into regions having different levels of theory, a QM (inner) and a classical MM (outer) region. 
 
 In-between the two regions an additional buffer region is introduced to be treated at both levels of theory (Figure~\ref{BuRNN_scheme}, a). The inner region and the interactions between the inner region and the buffer region are described by an atomistic neural network (NN) model.
@@ -13,7 +14,8 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
- The energy difference of the first two terms is then directly described by a neural network potential: 
+ The energy difference of the first two terms is directly described by a neural network potential: 
+
  
 \begin{equation}
   \begin{aligned}
@@ -21,17 +23,19 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
-As an NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet}, a continuous filter convolutional NN. The deep learning architecture SchNetPack \cite{Schuett2019SPK} is implemented in the MD engine of GROMOS.
+
+As a NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet}, a continuous filter convolutional NN. The deep learning architecture SchNetPack \cite{Schuett2019SPK} is implemented in the MD engine of GROMOS.
 
 
 In this tutorial, methanol in water will be used as a model system. In the context of BuRNN, methanol will be the inner region, while water molecules within a radius of 0.5 nm around the methanol will form the buffer region. The remaining water molecules will serve as the outer region. 
 
 We will learn how to install GROMOS with the interface to SchNetPack, generate a training data set, train the NN model and run the BuRNN simulation.
 
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=.33]{../09_tutorial_06/figures/BuRNN_scheme}
-\caption{(a) BuRNN scheme with its three regions: Inner region (orange) described by quantum mechanics (QM), buffer region (blue) described by QM and molecular mechanics (MM), outer region (gray) described by MM. (b) Test system: methanol solvated in SPC water. Methanol therefore is the inner region, approximately two shells of water are the buffer region, the rest of the water box builds the outer region.}
+\caption{(a) BuRNN scheme with its three regions: Inner region (orange) described by quantum mechanics (QM), buffer region (blue) described by QM and classical molecular mechanics (MM), outer region (grey) described by MM. (b) Test system: methanol solvated in SPC water. Methanol therefore builds the inner region, two shells of water will be the buffer region, the rest of the water box serves as outer region.}
 \label{BuRNN_scheme}
 \end{figure}
 
@@ -93,6 +97,7 @@ The resulting QM data set will contain the inner plus buffer (IPB) region and th
     \item Creation of the training database
 \end{enumerate}
 
+
 Classical MD simulations are performed as described in Tutorial 1. QM regions (inner + buffer regions) are extracted from each snapshot of the MD trajectory using the GROMOS++ program \texttt{filter}. The program writes out coordinate trajectories for atoms that are within a specified distance of a certain part of the system. The coordinates are all written into one \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/filter/filter_output_example.cnf}{configuration file} (\texttt{filter\_output\_example.cnf}) in the \texttt{train\_dataset\_tutorial/filter} directory.
 
 For methanol we specify all methanol atoms as filtering centers (\texttt{@atoms 1:a}) and filter with a chargegroup-based cut-off (\texttt{@pairlist CHARGEGROUP}) of 0.5 nm radius (\texttt{@cutoff 0.5}). The optimal/reasonable size for the buffer region can be determined from an rdf analysis. It should be as small as possible, as we want to save computational effort for the following QM calculations. The chargegroup cut-off scheme is important as we want to include full water molecules in the QM calculations. Then we extract individual QM regions into separated configuration files using an in-house written Python script. The arguments we use for filter are as follows:
@@ -104,6 +109,7 @@ For methanol we specify all methanol atoms as filtering centers (\texttt{@atoms 
 @pairlist   CHARGEGROUP
 @cutoff     0.5
 @outformat  cnf
+
 @traj       path(s) to trajectory file(s)
 \end{lstlisting}
 
@@ -151,6 +157,7 @@ For the model training we use two scripts, a python \href{https://github.com/Lie
     \item[-] interactions = number of interaction blocks (default 3)
 \end{enumerate}
 
+
 As we train on energies and forces, a combined loss function for optimizing the weight parameters will be used that predicts and obtains forces automatically as derivatives of the energies. For that, a loss weight (argument rho) is introduced to control the trade-off between energy loss and force loss.
 
 The \texttt{train.sh} bash script, which calls the python script for training, is written as follows:
@@ -164,6 +171,7 @@ modelpath= your path where the model will be stored
 python spk_run.py train schnet custom $datapath $modelpath --property energy --derivative forces --rho property=0.01 derivative=0.99 --split 688 86 --batch_size 8 --n_epochs 2 --lr 0.0001 --lr_patience 10 --lr_min 1e-06 --cutoff 100.0 --num_gaussians 50 --features 32 --interactions 1
 \end{lstlisting}
 
+
 The script also calls the \texttt{spk\_run.py} in the evaluation mode which evaluates the model against the test data:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
@@ -171,11 +179,13 @@ The script also calls the \texttt{spk\_run.py} in the evaluation mode which eval
 python spk_run.py eval $datapath $modelpath --split test --batch_size 1
 \end{lstlisting}
 
+
 Run the script to train and evaluate the example model:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 $ ./train.sh
 \end{lstlisting}
+
 
 The training will produce several files in the model-path directory. The model, the evaluation file, a training log file, a file with the random split, a checkpoint file and a json file with the model settings. The checkpoint file is written periodically and can be used to restart the training. For BuRNN simulations, we need to train two NN models, as we use the second model to evaluate the predictions of the first model.
 
@@ -291,6 +301,7 @@ NNCHARGE
        1
 END
 \end{lstlisting}
+
 This block contains the path to the NN charge model and at which nth step (\texttt{NUMSTP}) the charges should be updated.
 
 Including a charge model was e.g. relevant for the hexa-aqua iron, the model system of the original BuRNN paper \cite{Lier2022BuRNN}.
