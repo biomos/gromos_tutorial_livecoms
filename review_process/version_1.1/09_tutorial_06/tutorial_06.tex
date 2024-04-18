@@ -1,6 +1,7 @@
 % Tutorial 06
 
 \subsection{Tutorial 6: NN(QM)/MM simulations with the BuRNN approach}
+
 The Buffer Region Neural Network (BuRNN) approach \cite{Lier2022BuRNN} is a hybrid quantum mechanics/molecular mechanics (QM/MM) \cite{Warshel1976QM/MM, Senn2009QM/MM} simulation method. The system is therefore partitioned into regions having different levels of theory, a QM (inner) and a classical MM (outer) region. 
 
 In-between the two regions an additional buffer region is introduced to be treated at both levels of theory (Figure~\ref{BuRNN_scheme}, a). The inner region and the interactions between the inner region and the buffer region are described by an atomistic neural network (NN) model.
@@ -13,6 +14,7 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
+
  The energy difference of the first two terms is then directly described by a neural network potential: 
  
 \begin{equation}
@@ -21,12 +23,15 @@ The total potential energy of the system is calculated as follows:
     \end{aligned}
 \end{equation}
 
-As an NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet}, a continuous filter convolutional NN. The deep learning architecture SchNetPack \cite{Schuett2019SPK} is implemented in the MD engine of GROMOS.
+
+As a NN model we use SchNet \cite{Schuett2017SchNet, Schuett2018SchNet}, a continuous filter convolutional NN. The deep learning architecture SchNetPack \cite{Schuett2019SPK} is implemented in the MD engine of GROMOS.
+
 
 
 In this tutorial, methanol in water will be used as a model system. In the context of BuRNN, methanol will be the inner region, while water molecules within a radius of 0.5 nm around the methanol will form the buffer region. The remaining water molecules will serve as the outer region. 
 
-We will learn how to install GROMOS with the interface to SchNetPack, generate a training data set, train the NN model and run the BuRNN simulation. 
+We will learn how to install GROMOS with the interface to SchNetPack, generate a training data set, train the NN model and run the BuRNN simulation.
+
 
 \begin{figure}[H]
 \centering
@@ -93,6 +98,7 @@ The resulting QM data set will contain the inner plus buffer (IPB) region and th
     \item Creation of the training database
 \end{enumerate}
 
+
 Classical MD simulations are performed as described in Tutorial 1. QM regions (inner + buffer regions) are extracted from each snapshot of the MD trajectory using the GROMOS++ program \texttt{filter}. The program writes out coordinate trajectories for atoms that are within a specified distance of a certain part of the system. The coordinates are all written into one \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/filter/filter_output_example.cnf}{configuration file} (\texttt{filter\_output\_example.cnf}) in the \texttt{train\_dataset\_tutorial/filter} directory.
 
 For methanol we specify all methanol atoms as filtering centers (\texttt{@atoms 1:a}) and filter with a chargegroup-based cut-off (\texttt{@pairlist CHARGEGROUP}) of 0.5 nm radius (\texttt{@cutoff 0.5}). The optimal/reasonable size for the buffer region can be determined from an rdf analysis. It should be as small as possible, as we want to save computational effort for the following QM calculations. The chargegroup cut-off scheme is important as we want to include full water molecules in the QM calculations. Then we extract individual QM regions into separated configuration files using an in-house written Python script. The arguments we use for \texttt{filter} are as follows:
@@ -104,6 +110,7 @@ For methanol we specify all methanol atoms as filtering centers (\texttt{@atoms 
 @pairlist   CHARGEGROUP
 @cutoff     0.5
 @outformat  cnf
+
 @traj       path(s) to trajectory file(s)
 \end{lstlisting}
 
@@ -122,6 +129,7 @@ For each (remaining) optimization step, a single point (SP) QM calculation is re
 PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) 1SCF CHARGE=0
 \end{lstlisting}
 
+
 The whole process of GO and subsequent SP calculations is automated by our Python module. The examples of the \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/MOPAC_minimzation_files}{GO outputs} (\texttt{MOPAC\_minimzation\_files}) and \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/QM_dataset_example}{SP outputs} (\texttt{QM\_dataset\_example}) are provided. GO was performed for two previously mentioned MD configurations. However, the size of the data set increased to 860 configurations after including the GO optimization steps.
 
 
@@ -131,6 +139,7 @@ In this chapter we will explain how to build the ASE (atomic simulation environm
 
 \paragraph{Model training}
 The last step before running BuRNN simulations is the NN model training. In the previous parts, the ASE database was created based on structures from QM GO and SP calculations. We will now use SchNetPack for training of the example NN model. Due to the significant computational requirements of the NN model training we prepared fully trained \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/models}{NN models} in advance for you, which you can all find in the \texttt{models} directory. 
+
 
 The SchNet model \cite{Schuett2018SchNet} is a convolutional neural network (CNN) with a continuous filter. It is very similar to the common CNNs used in image recognition. In contrast to images, molecules can not be described by the discrete matrix of pixels and thus the continuous filter is applied instead of a discrete one. The SchNet model is composed of two NNs. The main one is responsible for the prediction of the given property itself and uses the vector of atomic numbers for the given structure as an input. The second one generates the filter for the convolution using the atomic positions on the input. The main NN is divided into three blocks. The first is the embedding layer which creates the feature vectors for the individual atoms within the structure. Therefore the whole structure is represented by the 2D matrix of shape: number of atom-wise features \times number of atoms. The second part of the model is the series of the interaction blocks. One interaction block contains one convolutional layer. This block is responsible for creating the representation of the system. The last part is the output module which predicts the desired property of the structure, which is in our case the energy.
 
@@ -151,6 +160,7 @@ For the model training we use two scripts, the Python script \href{https://githu
     \item[-] interactions = number of interaction blocks (default 3)
 \end{enumerate}
 
+
 The main goal of the training is to obtain a potential energy function, that is as close as possible to the reference one. Since beside the energies, we also have the analytical gradients, or negative forces, it is beneficial to provide them for the training as well. They carry the essential information about the shape of the function at the provided data points, which significantly improves the accuracy of the generated model. For that purpose, Schnetpack has a built-in functionality, which uses a loss function combining energies and forces. A loss weight (the argument \texttt{--rho}) is introduced to control the trade-off between the energy loss and the force loss. In this tutorial, we provide the optimized weights of 0.01 for the energies and 0.99 for the gradients. Please note, that the loss function mixes units of energies and forces and therefore the weights are unit-dependent. The gradients are not trained as a separate property; instead, they are used to improve the true analytical gradients of the model. In production runs, the model then provides the analytical gradients, which is essential for the conservation of energy in MD simulations.
 
 The \texttt{train.sh} bash script, which calls the Python script for training, is written as follows:
@@ -164,6 +174,7 @@ modelpath= your path where the model will be stored
 python spk_run.py train schnet custom $datapath $modelpath --property energy --derivative forces --rho property=0.01 derivative=0.99 --split 688 86 --batch_size 8 --n_epochs 2 --lr 0.0001 --lr_patience 10 --lr_min 1e-06 --cutoff 100.0 --num_gaussians 50 --features 32 --interactions 1
 \end{lstlisting}
 
+
 The script also calls the \texttt{spk\_run.py} in the evaluation mode which evaluates the model against the test data:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
@@ -171,17 +182,20 @@ The script also calls the \texttt{spk\_run.py} in the evaluation mode which eval
 python spk_run.py eval $datapath $modelpath --split test --batch_size 1
 \end{lstlisting}
 
+
 Run the script to train and evaluate the example model:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 $ ./train.sh
 \end{lstlisting}
 
+
 The training will produce several files in the model-path directory. The model, the evaluation file, a training log file, a file with the random split, a checkpoint file and a json file with the model settings. The checkpoint file is written periodically and can be used to restart the training. For BuRNN simulations, we need to train two NN models, as we use the second model to evaluate the predictions of the first model.
 
 
 
 \subsubsection{BuRNN simulation}
+
 For the BuRNN simulation, we have to specify, which atoms are in the QM and buffer regions. GROMOS allows for adaptive buffer region, i.e. the atoms are allowed to move freely between the MM and buffer region. The atoms of the QM region are not allowed to change. This information together with other specifications are specified in an additional input file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/meoh.qmm}{\texttt{meoh.qmm}} in the \texttt{md\_burnn} directory:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
@@ -211,6 +225,7 @@ NNVALID
        1 4.184  0.0
 END
 \end{lstlisting}
+
 
 The \texttt{NNDEVICE} block specifies the architecture for model execution. Allowed options are \texttt{auto}, \texttt{cuda} or \texttt{cpu}. Selecting \texttt{auto} instructs to run on GPU if available, or else fall back to CPU.
 
@@ -248,6 +263,7 @@ BUFFERZONE
 END
 \end{lstlisting}
 
+
 These blocks finally contain the atoms that belong to the inner region (\texttt{QMZONE}) and that are allowed to be a part of the buffer region (\texttt{BUFFERZONE}). In the first line of both blocks we specify the charge and multiplicity of the given zone. In the \texttt{BUFFERZONE} block we also define the cutoff which we choose to be 0.5 nm. The atoms specified in the \texttt{BUFFERZONE} block are considered as buffer region as soon as they come within the cutoff of any atom of the inner region.
 
 In addition to the separate input file, the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md.imd}{\texttt{md.imd}} file requires a \texttt{QMMM} block:
@@ -261,6 +277,7 @@ END
 \end{lstlisting}
 
 Most of the parameters are only relevant for conventional QM/MM simulations and will therefore not be explained in detail.
+
 QM/MM hybrid simulations (with mechanical embedding) are enabled by setting the first parameter \texttt{NTQMMM=1}. The interactions between the inner region and the outer region are essentially on the mechanical embedding level. \texttt{NTQMSW} determines which software will be used for the QM calculation. The SchNetPack corresponds to \texttt{NTQMSW=5}. The cutoff determined by \texttt{RCUTQM} is only relevant for electrostatic or polarizable embeddings and for \texttt{NTQMMM=1} it is ignored. \texttt{NTWQMMM} can be used if QM/MM related data should be written to a separate trajectory every n-th step. For BuRNN simulations we do not want to calculate LJ between QM atoms \texttt{QMLJ=0}. Constraining the bond lengths in the QM zone is optional (\texttt{QMCON}). With \texttt{MMSCALE} we can scale MM charges (by a scaling factor), but if \texttt{MMSCALE<0} no scaling is applied.
 
 In analogy to Tutorial 1 job scripts can be generated with the \textt{mk\_script} program. The argument file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md_mk_script.arg}{\texttt{md\_mk\_script.arg}} is also provided for you. Finally, you can execute the run files.
@@ -291,6 +308,7 @@ NNCHARGE
        1
 END
 \end{lstlisting}
+
 This block contains the path to the NN charge model and at which nth step (\texttt{NUMSTP}) the charges should be updated.
 
 Including a charge model was e.g. relevant for the hexa-aqua iron, the model system of the original BuRNN paper \cite{Lier2022BuRNN}.
