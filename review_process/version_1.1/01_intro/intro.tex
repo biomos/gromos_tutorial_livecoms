@@ -16,7 +16,7 @@ The set of tutorials presented here is intended to build on these original tutor
 %This will often happen in a specific section or subsection in the article itself.}
 
 The four tutorials presented here cover some of the methodological advances that have been implemented in GROMOS over the last few years and are not treated in the basic tutorials distributed with the software. 
-They address an advanced user who has some experience with MD simulations. Beginners in the field are recommended to start with the basic tutorial of GROMOS \cite{volume_7}. Each of the four current tutorials is based on an original publication and comes with its own learning objectives and expected outcome(s). 
+They address an advanced user who has some experience with MD simulations. Beginners in the field are recommended to start with the basic tutorial of GROMOS \cite{volume_7}. Each of the current tutorials is based on an original publication and comes with its own learning objectives and expected outcome(s). 
 After completing tutorial 1 ``S2 order parameter restraining" the user should be able to
 \begin{enumerate}
 \item Prepare a simulation of a protein solvated in water.
@@ -45,6 +45,14 @@ After completing tutorial 4 ``Selective Gaussian accelerated MD (GaMD)" the user
 \item Perform GaMD simulations in GROMOS.
 \item Extract, reweight and analyze GaMD simulations.
 \end{enumerate}
+%
+After completing tutorial 6 “NN(QM)/MM simulations with the
+BuRNN approach" the user should be able to
+\item Prepare QM input data and run QM calculations in
+mopac.
+\item Prepare a training database and train neural networks
+using SchNet.
+\item Run BuRNN simulations in GROMOS.
 %
 Due to the statistical-mechanical nature of the ensembles of molecular configurations, meaningful values of quantities are averages over configurations or trajectories. Individual trajectories are perfectly fine for instructional purposes such as in this tutorial, but are of little utility in ``real'' research settings, unless there is little or no variation within the configurational ensemble. 
 For most degrees of freedom of interest in bio-molecular systems this is certainly not the case. A simple means for generating replicates is to use different seeds of the random number generator for sampling the initial velocities at equilibration.
