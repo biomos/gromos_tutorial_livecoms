@@ -64,10 +64,10 @@ python3-config --ldflags
 \noindent{for Python version older than 3.8, or} 
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
-\noindent{python3-config --ldflags --embed}
+python3-config --ldflags --embed
 \end{lstlisting}
 
-for newer versions. An example of the \texttt{configure} script then could be:
+\noindent{for newer versions. An example of the \texttt{configure} script then could be:}
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false, showstringspaces=false]
 $ ./configure --enable-schnetpack PYFLAGS='-I/path/to/include/python3.7 -I/path/to/lib/python3.7/site-packages/pybind11/include' PYLDFLAGS='-L/path/to/lib/python3.7/config -L/path/to/lib -lpython3.7 -lcrypt -lpthread -ldl -lutil -lrt -lm'
 \end{lstlisting}
