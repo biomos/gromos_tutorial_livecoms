@@ -162,7 +162,7 @@ The run files can be created in the same way as in the search runs by using mk\_
 
 All the analyses for the GaMD simulations will be performed in the subfolder \texttt{ana}. 
 In this section of the tutorial we will calculate the reweighted PMF for the $\phi$ and $\psi$ dihedrals of the alanine dipeptide. The same procedure can be used with any other collective variable of interest.
-To extract the dihedral angle time series, first we need to run the program \textt{tser} with the correct argument files. You will find two argument files in the folder, on for each dihedral of interest, eg: \texttt{phi\_dihedral\_tser.arg}.
+To extract the dihedral angle time series, first we need to run the program \texttt{tser} with the correct argument files. You will find two argument files in the folder, on for each dihedral of interest, eg: \texttt{phi\_dihedral\_tser.arg}.
  \begin{lstlisting}
 $ tser @f phi_dihedral_tser.arg > phi.out
 \end{lstlisting}
@@ -197,9 +197,9 @@ C_{1} = \langle \Delta V \rangle,\\
 C_{2} = \langle \Delta V^2 \rangle - \langle \Delta V \rangle^2 = \sigma^{2}_{v}
 \end{aligned}
 \end{equation}
-This can be achieved by using the pyreweight script that is provided in the \textttt{scripts} directory or that can be downloaded from its original repository \cite{miao2014improved}.
+This can be achieved by using the pyreweight script that is provided in the \texttt{scripts} directory or that can be downloaded from its original repository \cite{miao2014improved}.
 
-The version provided in the \textttt{scripts} folder contains a small modification to provide the results in kJ/mol to ease the comparison to the results provided by GROMOS. The script takes as input a file with the CVs in columns and another file with the biasing potential with three columns, biasing in kJ/mol, time, and biasing in kcal/mol. An example of how to run the script can be found on the \textttt{scripts} folder on the file \textttt{pyreweight\_command.txt}.
+The version provided in the \texttt{scripts} folder contains a small modification to provide the results in kJ/mol to ease the comparison to the results provided by GROMOS. The script takes as input a file with the CVs in columns and another file with the biasing potential with three columns, biasing in kJ/mol, time, and biasing in kcal/mol. An example of how to run the script can be found on the \texttt{scripts} folder on the file \texttt{pyreweight\_command.txt}.
 
 Because the performed trajectories are too short to obtain converged PMFs, the dihedral and energy trajectories of a 100 ns run are provided in the subfolder \texttt{data}. The same analysis can be performed on the files provided there, producing the 2D-PMFs in figure \ref{aladip_pmf}:
 

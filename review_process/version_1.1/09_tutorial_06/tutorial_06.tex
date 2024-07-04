@@ -280,7 +280,7 @@ Most of the parameters are only relevant for conventional QM/MM simulations and 
 
 QM/MM hybrid simulations (with mechanical embedding) are enabled by setting the first parameter \texttt{NTQMMM=1}. The interactions between the inner region and the outer region are essentially on the mechanical embedding level. \texttt{NTQMSW} determines which software will be used for the QM calculation. The SchNetPack corresponds to \texttt{NTQMSW=5}. The cutoff determined by \texttt{RCUTQM} is only relevant for electrostatic or polarizable embeddings and for \texttt{NTQMMM=1} it is ignored. \texttt{NTWQMMM} can be used if QM/MM related data should be written to a separate trajectory every n-th step. For BuRNN simulations we do not want to calculate LJ for pairs of atoms within the inner region \texttt{QMLJ=0}. Constraining the bond lengths in the QM zone is optional (\texttt{QMCON}). With \texttt{MMSCALE} we can scale MM charges (by a scaling factor), but if \texttt{MMSCALE<0} no scaling is applied.
 
-In analogy to Tutorial 1 job scripts can be generated with the \textt{mk\_script} program. The argument file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md_mk_script.arg}{\texttt{md\_mk\_script.arg}} is provided. Finally, you can execute the run files.
+In analogy to Tutorial 1 job scripts can be generated with the \texttt{mk\_script} program. The argument file \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/md_burnn/md_mk_script.arg}{\texttt{md\_mk\_script.arg}} is provided. Finally, you can execute the run files.
 
 
 \subsubsection{BuRNN (example) analysis}
