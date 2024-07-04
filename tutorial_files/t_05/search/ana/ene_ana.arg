@@ -1,0 +1,14 @@
+@prop eds_vr eds_emin eds_emax e1 e1r e2 e2r e3 e3r e4 e4r 
+@topo ../../topo/2h2o.top
+@library ../../libs/ene_ana.md++.lib
+@en_files
+../aeds_2h2o_1.tre.gz
+../aeds_2h2o_2.tre.gz
+../aeds_2h2o_3.tre.gz
+../aeds_2h2o_4.tre.gz
+../aeds_2h2o_5.tre.gz
+../aeds_2h2o_6.tre.gz
+../aeds_2h2o_7.tre.gz
+../aeds_2h2o_8.tre.gz
+../aeds_2h2o_9.tre.gz
+../aeds_2h2o_10.tre.gz

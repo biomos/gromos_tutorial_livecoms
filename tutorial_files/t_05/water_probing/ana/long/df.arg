@@ -1,0 +1,4 @@
+
+@temp 300
+@stateR eds_vr.dat
+@endstates e1.dat e2.dat e3.dat e4.dat 

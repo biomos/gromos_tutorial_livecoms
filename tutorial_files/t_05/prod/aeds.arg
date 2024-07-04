@@ -1,0 +1,11 @@
+@sys            aeds_2h2o
+@bin            /* path to binary files */
+@dir            /* path to directory */
+@files
+  topo          ../topo/2h2o.top
+  input         aeds.imd
+  coord         ../eq/h2o.cnf
+  pttopo        ../topo/two_waters.ptp
+@template       ../libs/mk_script.lib
+@version        md++
+@script         1 10

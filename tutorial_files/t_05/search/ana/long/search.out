@@ -1,0 +1,49 @@
+emax_mean: 43.081181414905004, emax_std: 0.01068455541066522, emin_mean: -187.95449541514998, emin_std: 0.10261957171168491, 
+Offset for 1 is:
+block   mean   std    Theor offset
+block 1 : 16.98   10.09    -6.73
+block 2 : 16.85   3.92    17.45
+block 3 : 16.78   3.5    18.01
+block 4 : 16.71   3.19    18.3
+block 5 : 16.62   3.09    18.29
+block 6 : 16.71   3.01    18.54
+block 7 : 16.79   2.96    18.68
+block 8 : 16.8   2.85    18.77
+block 9 : 16.48   2.67    18.64
+block 10 : 16.32   2.65    18.5
+Offset for 2 is:
+block   mean   std    Theor offset
+block 1 : -43.2   9.39    -401.82
+block 2 : -43.78   2.83    -42.31
+block 3 : -43.85   2.4    -41.81
+block 4 : -43.88   2.14    -41.49
+block 5 : -43.84   2.03    -41.32
+block 6 : -43.93   1.93    -41.35
+block 7 : -43.98   1.76    -41.25
+block 8 : -44.0   1.77    -41.28
+block 9 : -43.87   1.64    -41.01
+block 10 : -43.66   1.71    -40.85
+Offset for 3 is:
+block   mean   std    Theor offset
+block 1 : 13.13   5.91    -88.17
+block 2 : 13.43   3.39    13.34
+block 3 : 13.52   3.03    14.79
+block 4 : 13.54   2.77    15.35
+block 5 : 13.54   2.59    15.53
+block 6 : 13.5   2.47    15.61
+block 7 : 13.48   2.4    15.72
+block 8 : 13.46   2.31    15.77
+block 9 : 13.42   2.16    15.87
+block 10 : 12.99   1.92    15.61
+Offset for 4 is:
+block   mean   std    Theor offset
+block 1 : 13.09   6.1    -371.37
+block 2 : 13.51   3.37    13.38
+block 3 : 13.55   2.97    14.87
+block 4 : 13.63   2.71    15.45
+block 5 : 13.68   2.48    15.9
+block 6 : 13.72   2.43    15.99
+block 7 : 13.71   2.32    16.13
+block 8 : 13.74   2.31    16.18
+block 9 : 13.97   2.2    16.46
+block 10 : 14.35   1.97    17.04

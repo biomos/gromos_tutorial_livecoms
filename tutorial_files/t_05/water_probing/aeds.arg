@@ -1,0 +1,12 @@
+@sys        aeds_wood2
+@bin	    /* path to binary files */
+@dir	    /* path to directory */
+@files
+  topo		../topo/HSP90_WDH2_8NA_2H2O_54a7.top
+  input         aeds.imd
+  coord         ../eq/wood2.cnf
+  pttopo        ../topo/wood2.ptp
+  disres        WOOD_res.dis
+@template	../libs/mk_script.lib
+@version        md++
+@script     1 10

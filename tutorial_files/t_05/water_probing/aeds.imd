@@ -1,0 +1,141 @@
+TITLE
+	Automatically generated input file
+	ogracia Wed Nov  2 17:28:18 2022
+END
+SYSTEM
+#      NPM      NSM
+         1      9483
+END
+STEP
+#   NSTLIM         T        DT
+    500000       100     0.002
+END
+BOUNDCOND
+#      NTB    NDFMIN
+         1         3
+END
+MULTIBATH
+# NTBTYP:
+#      weak-coupling:      use weak-coupling scheme
+#      nose-hoover:        use Nose Hoover scheme
+#      nose-hoover-chains: use Nose Hoover chains scheme
+# NUM: number of chains in Nose Hoover chains scheme
+#      !! only specify NUM when needed !!
+# NBATHS: number of temperature baths to couple to
+#          NTBTYP     NUM
+                   2       5
+#  NBATHS
+         3
+# TEMP0(1 ... NBATHS)  TAU(1 ... NBATHS)
+       300       0.1
+       300       0.1
+       300       0.1
+
+#   DOFSET: number of distinguishable sets of d.o.f.
+         3
+# LAST(1 ... DOFSET)  COMBATH(1 ... DOFSET)  IRBATH(1 ... DOFSET)
+      2089         1         1      2135         2         2     30584         3         3
+END
+PRESSURESCALE
+# COUPLE   SCALE    COMP    TAUP  VIRIAL
+       2       1 0.0004575      0.5        2
+# SEMIANISOTROPIC COUPLINGS(X, Y, Z)
+       1        1        1
+# PRES0(1...3,1...3)
+ 0.06102       0       0
+       0 0.06102       0
+       0       0 0.06102
+END
+FORCE
+#      NTF array
+# bonds    angles   imp.     dihe     charge nonbonded
+  0        1        1        1        1        1
+# NEGR    NRE(1)    NRE(2)    ...      NRE(NEGR)
+     6    2089      2121  2129  2132 2135  30584
+END
+COVALENTFORM
+#    NTBBH    NTBAH     NTBDN
+         0         0         0
+END
+CONSTRAINT
+# NTC
+    3
+#      NTCP  NTCP0(1)
+          1    0.0001
+#      NTCS  NTCS0(1)
+          1    0.0001
+END
+INNERLOOP
+#     NTILM      NTILS      NGPUS      NDEVG
+         4         0         1         -1
+END
+PAIRLIST
+# algorithm    NSNB   RCUTP   RCUTL    SIZE    TYPE
+          1       5     0.8     1.4     0.4       0
+END
+NONBONDED
+# NLRELE
+         1
+#  APPAK    RCRF   EPSRF    NSLFEXCL
+         0       1.4        61         1
+# NSHAPE  ASHAPE  NA2CLC   TOLA2   EPSLS
+         3       1.4         2     1e-10         0
+#    NKX     NKY     NKZ   KCUT
+        10        10        10       100
+#    NGX     NGY     NGZ  NASORD  NFDORD  NALIAS  NSPORD
+        32        32        32         3         2         3         4
+# NQEVAL  FACCUR  NRDGRD  NWRGRD
+    100000       1.6         0         0
+#  NLRLJ  SLVDNS
+         0      33.3
+END
+INITIALISE
+# Default values for NTI values: 0
+#   NTIVEL    NTISHK    NTINHT    NTINHB
+         0         0         0         0
+#   NTISHI    NTIRTC    NTICOM
+         0         0         0
+#   NTISTI
+         0
+#       IG     TEMPI
+    852384       300
+END
+COMTRANSROT
+#     NSCM
+      1000
+END
+DISTANCERES
+# NTDIR
+#   0 : no distance restraining
+#   -1,1 : use CDIS
+#   -2,2: use W0*CDIS
+#   NTDIR < 0 : time averaging
+#   NTDIR > 0 : no time averaging
+# NTDIRA = 1: read in time averaged distances (for continuation run)
+# NTDIRA = 0: don't read them in, recalc from scratch
+# NTWDIR >= 0 write every NTWDIRth step dist. restr. information to external file
+#     NTDIR  NTDIRA    CDIR    DIR0  TAUDIR  FORCESCALE VDIR NTWDIR
+          1       0    1500       1       1       0       0       0
+END
+PRINTOUT
+#NTPR: print out energies, etc. every NTPR steps
+#NTPP: =1 perform dihedral angle transition monitoring
+#     NTPR      NTPP
+       100         0
+END
+WRITETRAJ
+#    NTWX     NTWSE      NTWV      NTWF      NTWE      NTWG      NTWB
+      100         0         0         0       100         0         0
+END
+AEDS
+# EDS
+1
+# FORM  NUMSTATES
+  1     4
+# EMAX   EMIN
+  43.08  -187.95
+# EIR [1..NUMSTATES]
+  16.32  -43.66  12.99  14.35
+# NTIAEDSS  RESTREMIN  BMAXTYPE  BMAX  ASTEPS  BSTEPS
+  0         1          2         2     500     5000
+END
