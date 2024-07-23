@@ -1,6 +1,6 @@
 % Tutorial 02
 
-\subsection{Tutorial 2: Double decoupling method \& corrections for net-charge changes}
+\subsection{Tutorial 2: Double decoupling method \& corrections for net-charge changes} \label{chap:tut2}
 The double decoupling method (DDM)~\cite{DDM} is an alchemical perturbation approach to compute binding free energies from molecular dynamics simulations by making use of a thermodynamic cycle (Figure \ref{TC_ASA}). Two of the branches are determined by thermodynamic integration corresponding to the decoupling of the ligand from the system (perturbing the ligand into a non-interacting dummy molecule), free in solution and when bound to the host. In order to avoid sampling of non-relevant phase space in the complexed system, the ligand is kept in a position that resembles that of the native bound conformation by gradually introducing a harmonic distance restraint. The free energy of the restraint removal can be evaluated analytically.
 
 \begin{figure}[H]
@@ -49,7 +49,7 @@ END
 The distance restraint is defined between the centre of geometry (\texttt{type} \texttt{-1}) of 4 backbone atoms (\texttt{i}, \texttt{j}, \texttt{k} and \texttt{l}) of PLA$_2$ around the active site and the centre of geometry of 3 atoms of the ligand's benzene ring with a distance of zero (\texttt{A\_r0=B\_r0=0}). At state A the restraint is turned off (\texttt{A\_w0=0}), while at state B the restraint is retained with a weight factor of 1 (\texttt{B\_w0=1}). Parameters \texttt{n} and \texttt{m} control hidden 
 restraints~\cite{Christen}. Parameters \texttt{DISH} and \texttt{DISC} are not relevant for the centre of geometry and this type of pseudo atoms.
 
-\subsubsection{Extended-thermodynamic integration simulation}
+\subsubsection{Extended-thermodynamic integration simulation} \label{chapt:exTI}
 The thermodynamic integration approach uses the coupling parameter $\lambda$, which defines the system as a linear combination of the two end-states~\cite{kirkwood_TI}. The coupling parameter approach formulates the Hamiltonian of the system dependent on $\lambda$ by interpolating between the two states (scaling of force-field parameters). \\
 
 \begin{align}

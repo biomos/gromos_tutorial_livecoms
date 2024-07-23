@@ -102,7 +102,7 @@ def main():
         tot_con += contributions[key]
         tot_con_2 += lowest_energy[key]
         tot_dG += dG_diff[key]
-    print(f"ENDSTATE\tCONT_FRAMES\tPERCENTATGE\tDG")
+    print(f"ENDSTATE\tWEIGHT\tPERCENTAGE\t#FRAMES")
     for i in range(n_states):
         print(f"Endstate_{i+1}\t{round(contributions[i],2)}\t\t{round(contributions[i]*100/tot_con,2)}\t\t{dG_diff[i]}")
 

@@ -1,7 +1,6 @@
 % Tutorial 06
 
 \subsection{Tutorial 6: NN(QM)/MM simulations with the BuRNN approach}
-
 The Buffer Region Neural Network (BuRNN) approach \cite{Lier2022BuRNN} is a hybrid quantum mechanics/molecular mechanics (QM/MM) \cite{Warshel1976QM/MM, Senn2009QM/MM} simulation method. The system is partitioned into regions having different levels of theory, a QM (inner) and a classical MM (outer) region. 
 
 In between the two regions, an additional buffer region is introduced to be treated at both levels of theory (Figure~\ref{BuRNN_scheme}, a). The inner region and the interactions between the inner region and the buffer region are described by an atomistic neural network (NN) model, approximating a QM energy.
@@ -41,7 +40,7 @@ We will learn how to install GROMOS with the interface to SchNetPack, generate a
 \end{figure}
 
 
-\subsubsection{Installation}
+\subsubsection{Installation} \label{chap:burnn_install}
 \paragraph{Prerequisites}
 To compile and install GROMOS with the interface to SchNetPack (spk) to run NN models, you first need to have installed SchNetPack and the pybind11 library \cite{pybind11}. The interface uses the pybind11 library to call the model prediction functions in the Python code of SchNetPack. To install the SchNetPack and pybind11 library on your system, please follow their respective installation instructions. The tested version of SchNetPack is 1.0.0 and pybind11 v2.6.2.
 
@@ -94,7 +93,7 @@ The resulting QM data set will contain the inner plus buffer (IPB) region and th
     \item QM energy minimization for all (or selected) extracted IPB regions.
     \item Including all configurations along the minimization process into the data set.
     \item Extraction of the buffer regions from all the data points.
-    \item Single-Point (SP) QM calculations for the IPB and buffer regions separately.
+    \item Single-Point QM calculations for the IPB and buffer regions separately.
     \item Creation of the training database
 \end{enumerate}
 
@@ -117,20 +116,20 @@ For methanol, we specify all methanol atoms as filtering centers (\texttt{@atoms
 We provide an example of two \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/separated_cnf_files}{configuration files} (\texttt{train\_database\_tutorial/separated\_cnf\_files}) which will be further used in this tutorial. An example of the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/filter/filter_meoh_example.arg}{argument file} for \texttt{filter} is provided (\texttt{filter/filter\_meoh\_example.arg}).
 
 \paragraph{QM calculations}
-In this part, we mainly focus on the concept of QM geometry optimization (GO) and single point calculations (SP) in the context of BuRNN. Once we have the coordinates of the IPB region, GO will optimize the atomic positions to find the local minimum according to the QM potential energy surface. This calculation will not only find the local energy minimum but also connects the classical snapshots with the optimal QM conformations and thus represents a sufficient part of the conformational space of the system. Therefore we include all the optimization steps into the training dataset, but we have to be aware that the training dataset will be significantly increased in size. A lot of similar structures will be present at the end of the minimization and thus clustering before proceeding with the next step is recommended. Alternatively, the minimization can be stopped well before reaching a strict energy minimum. We use MOPAC with the following keywords to perform the GO:
+In this part, we mainly focus on the concept of QM geometry optimization and single point calculations in the context of BuRNN. Once we have the coordinates of the IPB region, geometry optimization will optimize the atomic positions to find the local minimum according to the QM potential energy surface. This calculation will not only find the local energy minimum but also connects the classical snapshots with the optimal QM conformations and thus represents a sufficient part of the conformational space of the system. Therefore we include all the optimization steps into the training dataset, but we have to be aware that the training dataset will be significantly increased in size. A lot of similar structures will be present at the end of the minimization and thus clustering before proceeding with the next step is recommended. Alternatively, the minimization can be stopped well before reaching a strict energy minimum. We use MOPAC with the following keywords to perform the GO:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) CHARGE=0
 \end{lstlisting}
 
-For each (remaining) configuration in the optimization procedure, a single point (SP) QM calculation is required to receive the associated QM energy and gradients (forces). The SP calculation is not only done for the IPB region but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer region only). Furthermore, the geometry of water molecules in the buffer region has to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm \cite{RYCKAERT1977SHAKE}. The following MOPAC keywords are used for the SP calculations:
+For each (remaining) configuration in the optimization procedure, a single point QM calculation is required to receive the associated QM energy and gradients (forces). The single point calculation is not only done for the IPB region but also for the buffer region alone. The coordinates of the buffer region are identical for the two calculations. The number of atoms for the inner region is required, as these atoms need to be deleted for the second calculation (buffer region only). Furthermore, the geometry of water molecules in the buffer region has to be preserved as in the following BuRNN simulations the bonds will be constrained by the SHAKE algorithm \cite{RYCKAERT1977SHAKE}. The following MOPAC keywords are used for the single point calculations:
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 PM7 GRAD AUX(PRECISION = 9, XP, XS, XW) 1SCF CHARGE=0
 \end{lstlisting}
 
 
-The whole process of GO and subsequent SP calculations is automated by our Python module. The examples of the \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/MOPAC_minimzation_files}{GO outputs} (\texttt{MOPAC\_minimzation\_files}) and \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/QM_dataset_example}{SP outputs} (\texttt{QM\_dataset\_example}) are provided. GO was performed for two previously mentioned MD configurations. The size of the data set increased to 860 configurations after including the GO optimization steps.
+The whole process of geometry optimization and subsequent single point calculations is automated by our Python module. The examples of the \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/MOPAC_minimzation_files}{geometry optimization outputs} (\texttt{MOPAC\_minimzation\_files}) and \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/QM_dataset_example}{single point outputs} (\texttt{QM\_dataset\_example}) are provided. Geometry optimization was performed for two previously mentioned MD configurations. The size of the data set increased to 860 configurations after including the geometry optimization steps.
 
 
 \paragraph{Building a training database}
@@ -138,7 +137,7 @@ In this chapter, we will explain how to build the ASE (atomic simulation environ
 
 
 \paragraph{Model training}
-The last step before running BuRNN simulations is the NN model training. In the previous parts, the ASE database was created based on structures from QM GO and SP calculations. We will now use SchNetPack for training of the example NN model. Due to the significant computational requirements of the NN model training we prepared fully trained \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/models}{NN models} in advance, which you can all find in the \texttt{models} directory. 
+The last step before running BuRNN simulations is the NN model training. In the previous parts, the ASE database was created based on structures from QM geometry optimization and single point calculations. We will now use SchNetPack for training of the example NN model. Due to the significant computational requirements of the NN model training we prepared fully trained \href{https://github.com/LierB/gromos_tutorial_livecoms/tree/burnn_tutorial_rc/tutorial_files/t_06/models}{NN models} in advance, which you can all find in the \texttt{models} directory. 
 
 
 The SchNet model \cite{Schuett2018SchNet} is a convolutional neural network (CNN) with a continuous filter. It is very similar to the common CNNs used in image recognition. In contrast to images, molecules can not be described by the discrete matrix of pixels and thus a continuous filter is applied instead of a discrete one. The SchNet model is composed of two NNs. The main one is responsible for the prediction of the given property itself and uses the vector of atomic numbers for the given structure as an input. The second one generates the filter for the convolution using the atomic positions as the input. The main NN is divided into three blocks. The first is the embedding layer which creates the feature vectors for the individual atoms within the structure. Therefore the whole structure is represented by the 2D matrix of shape: number of $\text{atom-wise features}\times \text{number of atoms}$. The second part of the model is the series of the interaction blocks. One interaction block contains one convolutional layer. This block is responsible for creating the representation of the system. The last part is the output module which predicts the desired property of the structure, which is in our case the energy.
