@@ -4,7 +4,7 @@
 @files
   topo          ../topo/2h2o.top
   input         aeds.imd
-  coord         ../eq/h2o.cnf
+  coord         ../eq/2h2o.cnf
   pttopo        ../topo/two_waters.ptp
 @template       ../libs/mk_script.lib
 @version        md++
