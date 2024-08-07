@@ -1,6 +1,6 @@
 % prerequisites
 %\textcolor{red}{Here you would identify prerequisites/background knowledge that are assumed by your work, as well as any software/license requirements.}
-The tutorials require the latest GROMOS11 version installed (1.6.0). 
+The tutorials require the latest GROMOS11 version installed (1.6.1). 
 %A GROMOS license will be issued for free upon registration of a user at \url{www.gromos.net}.  
 Users can download the GROMOS source code via \url{www.gromos.net}.  Users may download the source code for free, as well as the PDF files for the manual. Files required for the basic tutorials in volume 7 of the manual can also be downloaded free of charge.
 %\hl{Users who downloaded GROMOS from the website, also have access to the pdf files of the manual. 
@@ -33,6 +33,6 @@ GROMOS can be compiled on almost any operating system compatible with the POSIX 
  Some of the libraries required are not available on standard operating systems and have to be installed 
 manually as described in detail in volume 8 of the GROMOS documentation \cite{volume_8}. 
 In order to use the GROMOS programs without specifying the full path you can add them to your PATH variable, see section 3.2.2. in volume 8.
-For some of the analyses a basic installation of Python 3 is required. 
-Note that files edited on non-Unix-like operating systems may cause an I/O-error due to a different representation of a line break.
+For some of the analyses in this tutorial a basic installation of Python 3 is required. 
+Note that files edited on non-Unix-like operating systems may cause an I/O-error due to a different representation of a line break. For the tutorial 6 "NN(QM)/MM simulations with the BuRNN approach", a special compilation of GROMOS with pybind11 links to SchNetPack is needed. It also relies on quantum-mechanical calculations that can be performed with any software that is preferred. In this tutorial we have used MOPAC (version MOPAC2016.22.067L), of which the output files are provided. See section \ref{chap:burnn_install}. 
 

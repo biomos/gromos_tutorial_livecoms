@@ -1,0 +1,15 @@
+@prop eds_vr e1 e1r e2 e2r e3 e3r e4 e4r 
+@topo ../../../topo/HSP90_WDH2_8NA_2H2O_54a7.top
+@library ../../libs/ene_ana.md++.lib
+@en_files
+../aeds_wood2_1.tre.gz
+../aeds_wood2_2.tre.gz
+../aeds_wood2_3.tre.gz
+../aeds_wood2_4.tre.gz
+../aeds_wood2_5.tre.gz
+../aeds_wood2_6.tre.gz
+../aeds_wood2_7.tre.gz
+../aeds_wood2_8.tre.gz
+../aeds_wood2_9.tre.gz
+../aeds_wood2_10.tre.gz
+

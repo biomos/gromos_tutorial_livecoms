@@ -1,0 +1,12 @@
+TITLE
+distance restraint on water molecules
+END
+DISTANCERESSPEC
+# DISH  DISC
+  0.1   0.153
+# i   j   k   l  type      i    j     k  l  type  r0      w0   rah
+2130  0   0   0     0    781  2108    0  0  -1  0.00   1.0    0
+2133  0   0   0     0    385  1672    0  0  -1  0.00   1.0    0 
+END
+
+

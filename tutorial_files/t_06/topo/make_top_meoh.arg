@@ -1,0 +1,9 @@
+# specify which forcefield building blocks and parameters you want to use with the @build and @param arguments.
+# here we specify additional building block for MeOH with explicit hydrogen atoms
+@build	54a7.mtb MeOH_exp_H.mtb 
+@param	54a7.ifp
+# using the @seq argument you tell the program which building blocks you want to put in a row to built your peptide. 
+# Here, MeOH stands for an extra buiding block of MeOH with explicit hydrogen atoms.
+@seq	MeOH
+# Specify the solvent.
+@solv	H2O

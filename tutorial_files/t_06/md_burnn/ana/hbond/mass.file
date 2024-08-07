@@ -1,0 +1,11 @@
+TITLE
+Standard GROMOS96 atomic masses used for the hydrogen program
+END
+HYDROGENMASS
+1.00800     #standard GROMOS96 hydrogen mass
+END
+ACCEPTORMASS
+14.00670    #standard GROMOS96 nitrogen mass
+15.99940    #standard GROMOS96 oxygen mass
+32.06000    #standard GROMOS96 sulfur mass
+END
