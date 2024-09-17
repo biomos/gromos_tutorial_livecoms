@@ -14,7 +14,7 @@ Gaussian accelerated MD is a recently developed technique that allows to increas
      \end{cases}
   \end{aligned}
 \end{equation}
-Where $\Delta V(r)$ is the boosting potential added to the system, $E$ is the energy threshold and $K$ is the force constant of the boosting potential \cite{miao2015gaussian}. The used potential leads to a Gaussian distribution of $\Delta V$ making the reweighting process easier through the use of cumulant expansion to the second order \cite{miao2014improved}. Both acceleration parameters ($E$ and $K$) can be easily obtained trough a search simulation. The energy threshold $E$, can be defined as $E = V_{max}$ (lower bound) or as $E = V_{min} + \frac{1}{K}$, where $V_{max}$ and $V_{min}$ are the maximum and minimum energy observed in the search simulation. $K$ is defined as: 
+Where $\Delta V(r)$ is the boosting potential added to the system, $E$ is the energy threshold and $K$ is the force constant of the boosting potential \cite{miao2015gaussian}. The used potential leads to a Gaussian distribution of $\Delta V$ making the reweighting process easier through the use of cumulant expansion to the second order \cite{miao2014improved}. Both acceleration parameters ($E$ and $K$) can be easily obtained through a search simulation. The energy threshold $E$, can be defined as $E = V_{max}$ (lower bound) or as $E = V_{min} + \frac{1}{K}$, where $V_{max}$ and $V_{min}$ are the maximum and minimum energy observed in the search simulation. $K$ is defined as: 
 \begin{equation}
   \begin{aligned}
   K \equiv K_0 \frac{1}{V_{max} - V_{min}}
@@ -101,7 +101,7 @@ The next lines assigns each group of interactions to their corresponding acceler
 In the case of standard GaMD, we have only one acceleration group containing the interactions of all the atoms of the system. For the selective GaMD, the interactions of the alanine dipeptide with itself (\texttt{AGROUP\_1} = 1, \texttt{AGROUP\_2} = 1) and the interactions of the alanine dipeptide with the solvent (\texttt{AGROUP\_1} = 1, \texttt{AGROUP\_2} = 2) are assigned to one acceleration group. The interactions of the solvent with itself (\texttt{AGROUP\_1} = 2, \texttt{AGROUP\_2} = 2) are not assigned to any group and thus not accelerated. The same behaviour can be obtained by using \texttt{ACCELGROUP} = 0, which is never accelerated.
 
 \subsubsection{Acceleration parameter search}
-In order to get the acceleration parameters (E and K) a search simulation needs to be performed. The search starts with a conventional MD (cMD) simulation in which the necessary statistics are recorded. After the cMD search, a starting set of $E$ and $K$ parameters is computed and applied to the system. After an equilibration phase, the statistics are collected again and the acceleration parameters are constantly updated. After the adaptive GaMD search, the final acceleration parameters are collected to be used for the production simulations. In this tutorial we will use 0.1 ns of cMD search followed by 0.3 ns of GaMD search. For a real case scenario the search phase must be run for longer times, at least 10 times longer than the searches described here.
+In order to get the acceleration parameters ($E$ and $K$) a search simulation needs to be performed. The search starts with a conventional MD (cMD) simulation in which the necessary statistics are recorded. After the cMD search, a starting set of $E$ and $K$ parameters is computed and applied to the system. After an equilibration phase, the statistics are collected again and the acceleration parameters are constantly updated. After the adaptive GaMD search, the final acceleration parameters are collected to be used for the production simulations. In this tutorial we will use 0.1 ns of cMD search followed by 0.3 ns of GaMD search. For a real case scenario the search phase must be run for longer times, at least 10 times longer than the searches described here.
 Go to the directory \texttt{search}, in there you will find two directories, one for the search of the standard GaMD methodology \texttt{gamd}, and one for the selective approach \texttt{selective\_gamd}. Take a look at the \texttt{GAMD} block of the input file.
 \begin{lstlisting}
 GAMD
@@ -126,8 +126,8 @@ GAMD
   0
 END
 \end{lstlisting}
-The fourth line specifies the general parameters for the GaMD simulation, such as the search algorithm to use (\texttt{SEARCH}), whether the dihedral term has to be accelerated separatly(\texttt{FORM}), whether the energy threshold used is an upper or lower bound (\texttt{THRESH}), and whether the search needs to be initialized (\texttt{NTIGAMDS}). For this tutorial we will accelerate dihedral and potential terms separatly (dual boosting approach) and the energy threshold will be set at the lower bound ($E$ = $V_{max}$). 
-The next line contains the number of atom groups and interaction groups or acceleration groups defined in the gamd file.
+The fourth line specifies the general parameters for the GaMD simulation, such as the search algorithm to use (\texttt{SEARCH}), whether the dihedral term has to be accelerated separatly (\texttt{FORM}), whether the energy threshold used is an upper or lower bound (\texttt{THRESH}), and whether the search needs to be initialized (\texttt{NTIGAMDS}). For this tutorial we will accelerate dihedral and potential terms separatly (dual boosting approach) and the energy threshold will be set at the lower bound ($E$ = $V_{max}$). 
+The next line contains the number of atom groups and interaction groups or acceleration groups defined in the \texttt{gamd} file.
 \texttt{DIHSTD} and \texttt{TOTSTD} correspond to the values of $\sigma_0$ for the dihedral term boosting and the potential term boosting respectively.  
 The variables $ED$, $ET$, $KD$ and $KT$ are the acceleration parameters that define the boosting potential that will be applied to the system. $ED$ and $ET$ correspond to the list of energy thresholds for the dihedral terms and the potential energy of the system respectively, while $KD$ and $KT$ correspond to the list of force constants of the boosting potential applied to the dihedral term and to the potential energy term. Since this is a search run, all the parameters can be set to 0, for a production run, these parameters will need to be updated for the ones found during the search. Since each acceleration region requires its own parameters, if more than one acceleration region is defined, one must provide extra $ED$, $ET$, $KD$ and $KT$ parameters.
 Finally, \texttt{EQSTEPS}  correspond to the number of equilibration steps to use before starting to collect statistics of the search simulation and \texttt{WINDOW} is the size of the window to use to collect the parameters, when \texttt{WINDOW} equals 0 the whole simulation is used to compute the needed statistics.
@@ -136,9 +136,9 @@ All input files are now prepared and we can generate the run file with:
 \begin{lstlisting}
 $ mk_script @f mkscript_gamd_search.arg
 \end{lstlisting}
-The job file \texttt{gamd\_search.jobs} provided to mk\_script shows the parameters that change between search runs.
+The job file \texttt{gamd\_search.jobs} provided to \texttt{mk\_script} shows the parameters that change between search runs.
 
-For this tutorial we provide two mk\_script libraries, one to prepare the run files for a cluster using SLURM as a queueing system (\texttt{libs\/mkscript.lib}), and one for running the simulations locally, (\texttt{libs\/mkscript\_local.lib}). If the CUDA acceleration code is to be used, one simply needs to uncomment the block \texttt{INNERLOOP} from the imd files before running mk\_script.
+For this tutorial we provide two \texttt{mk\_script} libraries, one to prepare the run files for a cluster using SLURM as a queueing system (\texttt{libs\/mkscript.lib}), and one for running the simulations locally, (\texttt{libs\/mkscript\_local.lib}). If the CUDA acceleration code is to be used, one simply needs to uncomment the block \texttt{INNERLOOP} from the \texttt{imd} files before running \texttt{mk\_script}.
 
 After running the GaMD simulation, we can extract the acceleration parameters by using \texttt{ene\_ana}. The analysis files are provided in the folder \texttt{ana}.
 We will use this program to read out the energy thresholds and force constants from the last energy trajectory.
@@ -154,9 +154,9 @@ The file \texttt{ene\_ana.arg} contains the information of which parameters to e
 Now that the search is complete we can run the production run.
 Go to the directory \texttt{prod}. In a similar fashion to the \texttt{search} directory, there you will find two directories, one for the standard GaMD methodology \texttt{gamd}, and one for the selective approach \texttt{selective\_gamd}. 
 The same imd used in the search runs can be used for the production ones. However, the search algorithm needs to be turned off (\texttt{SEARCH} = 0) and the acceleration parameters obtained from the search run need to be added in. 
-For this tutorial, since the search run was not long enough to obtained optimal acceleration parameters, the imd files already contain all the acceleration parameters needed in them, estimated from a longer GaMD search. We will run a production simulation for a total of 1ns, although a true production run must be much longer.
+For this tutorial, since the search run was not long enough to obtained optimal acceleration parameters, the \texttt{imd} files already contain all the acceleration parameters needed in them, estimated from a longer GaMD search. We will run a production simulation for a total of 1~ns, although a true production run must be much longer.
 
-The run files can be created in the same way as in the search runs by using mk\_script with its corresponding .arg file.
+The run files can be created in the same way as in the search runs by using \texttt{mk\_script} with its corresponding \texttt{.arg} file.
 
 \subsubsection{GaMD analysis}
 
