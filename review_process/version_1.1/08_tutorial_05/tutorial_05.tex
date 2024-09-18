@@ -2,7 +2,7 @@
 
 \subsection{Tutorial 5: Accelerated Enveloping Distribution Sampling (AEDS)}
 
-Alchemical free-energy methods have been established as an irreplaceable tool in computational drug design. A vast variety of methods to perform alchemical transformations exists. We have already seen the extended-Ti approach outlined in section \ref{chapt:exTI}. One family of free-energy methods is the free-energy perturbation (FEP) based on Zwanzig´s equation (eq. \ref{eq:Zwanzig1}) \cite{Zwanzig1954}. Defining the free-energy difference $\Delta G_{i,j}$ between two states $i$ and $j$, represented by Hamiltonian's $H_i$ and $H_j$ over the positions $r$ as an ensemble average over state $i$. 
+Alchemical free-energy methods have been established as an irreplaceable tool in computational drug design. A vast variety of methods to perform alchemical transformations exists. We have already seen the extended-Ti approach outlined in section \ref{chapt:exTI}. One family of free-energy methods is the free-energy perturbation (FEP) based on Zwanzig´s equation (eq. \ref{eq:Zwanzig1}) \cite{Zwanzig1954}. Defining the free-energy difference $\Delta G_{i,j}$ between two states $i$ and $j$, represented by Hamiltonian's $H_i$ and $H_j$ over the positions $\vec{r}$ as an ensemble average over state $i$. 
 
 \begin{equation}
 \begin{aligned}
@@ -20,7 +20,7 @@ H_R(\vec{r}) & = -k_BT \ln  \left( \sum_{i=1}^{N} e^{ -(H_i(\vec{r}) - \Delta F_
 \label{eq:EDS1}
 \end{equation}
 
-Since this approach can lead to high energy barriers between the minima and thus to sampling problems, the original EDS version introduced a smoothing parameter s (eq. \ref{eq:EDS2}) to smoothen the energy landscape. 
+Since this approach can lead to high energy barriers between the minima and thus to sampling problems, the original EDS version introduced a smoothing parameter $s$ (eq. \ref{eq:EDS2}) to smoothen the energy landscape. 
 
 \begin{equation}
 \begin{aligned}
@@ -29,7 +29,7 @@ H_R(\vec{r}) & = -\frac{k_BT}{s} \ln  \left( \sum_{i=1}^{N} e^{ -s(H_i(\vec{r}) 
 \label{eq:EDS2}
 \end{equation}
 
-This can lead to a deformation of the energy landscape, not preserving the position of the energy minima. Therefore, a refined approach using a boosting potential was proposed \cite{JP2018,JP2020}. Similar to Gaussian accelerated MD a harmonic boosting potential is used to accelerate defined regions namely the non-bonded interactions of the perturbed atoms. The accelerated reference Hamiltonian $H_R^{\ast}(\vec{r})$ is defined as shown in equation \ref{eq:AEDS}, where the acceleration range is defined by $E_{max}$ and $E_{min}$. 
+This can lead to a deformation of the energy landscape, not preserving the position of the energy minima. Therefore, a refined approach using a boosting potential was proposed \cite{JP2018,JP2020}. Similar to Gaussian accelerated MD, a harmonic boosting potential is used to accelerate defined regions, namely the non-bonded interactions of the perturbed atoms. The accelerated reference Hamiltonian $H_R^{\ast}(\vec{r})$ is defined as shown in equation \ref{eq:AEDS}, where the acceleration range is defined by $E_{max}$ and $E_{min}$. 
 
 \begin{equation}
   \begin{aligned}
@@ -55,7 +55,7 @@ The final equilibrated structures can be found in the directory \texttt{eq}. The
 \subsubsection{Acceleration parameter search}
 To get the acceleration parameters ($E_{max}$, $E_{min}$, offsets) a search simulation needs to be performed. The search run starts from an equilibrated structure. If no initial parameters are given the search starts as a conventional MD simulation. After each simulation step $E_{max}$, $E_{min}$, and the offsets are updated. After approximately 5-25 ns the parameter search simulation converges. The needed simulation time depends mostly on the complexity of the system and the perturbation since we are dependent on visiting all end-states to adjust the acceleration parameters. In this tutorial, we will run a very short search simulation of 0.5 ns and use parameters from a longer simulation for the production run.  
 
-Go to the directory \texttt{search}. In this folder, you will find three files namely \texttt{aeds.arg}, \texttt{aeds.job}, and \texttt{aeds.imd}. Let's start with the \texttt{aeds.imd} file. This file is a simulation input file we already know from previous tutorials. At the bottom of the file, we have an additional AEDS block.
+Go to the directory \texttt{search}. In this folder, you will find three files namely \texttt{aeds.arg}, \texttt{aeds.job}, and \texttt{aeds.imd}. Let's start with the \texttt{aeds.imd} file. This file is a simulation input file we already know from previous tutorials. At the bottom of the file, we have an additional \texttt{AEDS} block.
 \begin{lstlisting}
 AEDS
 # AEDS
@@ -107,7 +107,7 @@ Later we will change this into $FORM$ 1 to run a production run. Other options a
     \end{center}
 \end{table}
 
-In the third line, we set zeros for both $E_{max}$ and $E_{min}$ as well as for the offsets in the line underneath. If we had prior information about these values we could give them as a starting point for the search instead of starting from scratch. Line five is specific for search runs. With $NTIAEDSS$ 1 we initialise the search run. You will see that we turn it off in the jobscript after the first initialization. $RESTREMIN$ restricts $E_{min}$ to the minimum average end-state energy before all states have been visited at least once. $BMAXTYPE$ and $BMAX$ are used to control the estimated maximum barrier height. By default, we set both of them to 2. $ASTEPS$ is used to control the change rate in offsets. A higher number means a faster change in offsets. $BSTEPS$ is used for initial free-energy guesses in other search algorithms. In the argument file, we need to specify the folder location and the location of the md binaries as absolute paths. The \texttt{imd} file uses the $INNERLOOP$ block for \texttt{CUDA} support. If the used \texttt{gromos} binary does not support \texttt{CUDA}, comment the block out using a hashtags. The jobfile is used to create ten \texttt{imd} and \texttt{run} files of the same simulation length as specified in \texttt{aeds.imd}. The only changes in the settings are that 
+In the third line, we set zeros for both $E_{max}$ and $E_{min}$ as well as for the offsets in the line underneath. If we had prior information about these values we could give them as a starting point for the search instead of starting from scratch. Line five is specific for search runs. With $NTIAEDSS$ 1 we initialise the search run. You will see that we turn it off in the jobscript after the first initialization. $RESTREMIN$ restricts $E_{min}$ to the minimum average end-state energy before all states have been visited at least once. $BMAXTYPE$ and $BMAX$ are used to control the estimated maximum barrier height. By default, we set both of them to 2. $ASTEPS$ is used to control the change rate in offsets. A higher number means a faster change in offsets. $BSTEPS$ is used for initial free-energy guesses in other search algorithms. In the argument file, we need to specify the folder location and the location of the md binaries as absolute paths. The \texttt{imd} file uses the $INNERLOOP$ block for \texttt{CUDA} support. If the used \texttt{gromos} binary does not support \texttt{CUDA}, comment the block out using hashtags. The jobfile is used to create ten \texttt{imd} and \texttt{run} files of the same simulation length as specified in \texttt{aeds.imd}. The only changes in the settings are that 
 $NTIAEDSS$ is set to zero after the first jobscript.
 
 With all input files prepared, we can now generate the run files using \texttt{mk\_script} from \texttt{gromos++} package with:
@@ -155,7 +155,7 @@ AEDS
 END
 \end{lstlisting}
 
-We now use $FORM$ 1 for a production run. We also inserted values for $E_{max}$, $E_{min}$, and the offsets. We also set $NTIAEDSS$ to zero which is optional since this line is not read in a production run. Similar to the search run we now use \texttt{mk\_script} to create our input files.
+We now use $FORM$ 1 for a production run. We also inserted values for $E_{max}$, $E_{min}$, and the offsets. We also set $NTIAEDSS$ to zero which is optional since this line is not read in a production run. Similar to the search run we now use \texttt{mk\_script} to create our input files. Again, the $INNERLOOP$ block in the \texttt{imd} file has to be commented out if the used \texttt{gromos} binary does not support \texttt{CUDA}.
 Since we use well converged parameters we can get away with a short production run of 1 ns. In practice, production runs are mostly between 20-100 ns.
 
 \subsubsection{Production run analysis}

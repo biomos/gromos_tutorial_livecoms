@@ -166,9 +166,9 @@ $ ene_ana @f ene_ana_unres.arg > ene_ana_unres.out
 \end{lstlisting}
 The first trajectory is excluded from the analysis to account for the fact that the system needs some additional equilibration phase when switching from a constant volume to a constant pressure simulation.
 The file \texttt{ene\_ana\_unres.out} contains the averages while the time series of all specified properties are contained in the \texttt{.dat} files. The total intramolecular energy of the protein 
-had to be defined in the \texttt{ene\_ana.md++.lib} file located in the subdirectory above, see line 150 in that file. Repeat the analysis for the restrained simulation and compare the results. For the latter we additionally 
+had to be defined in the \texttt{ene\_ana.md++.lib} file located in the subdirectory above, see line 251 in that file. Repeat the analysis for the restrained simulation and compare the results. For the latter we additionally 
 evaluate the total restraining energy in order to check whether the contribution of the restraints is small compared to the total intramolecular energy of the protein. 
-Note that the file \texttt{ene\_ana.md++.lib} has to be compatible with the GROMOS version used. If you use a newer version than 1.5.0, you will find the corresponding file in the directory \texttt{md++-x.y.z/data}.
+Note that the file \texttt{ene\_ana.md++.lib} has to be compatible with the GROMOS version used. If you use a newer version than 1.5.0, you will find the corresponding file in the directory \texttt{md++-x.y.z/data} of your GROMOS installation.
 
 Second, the atom positional root-mean-square deviation of the backbone atoms from a reference structure is calculated for the two trajectories using the GROMOS++ program \texttt{rmsd}. 
 For the unrestrained simulation go to the directory \texttt{ana/rmsd/unres} and type
