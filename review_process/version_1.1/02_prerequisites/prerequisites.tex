@@ -22,7 +22,9 @@ The GROMOS software for biomolecular simulation comprises the molecular dynamics
 The units of the various quantities are defined outside the program through a physical constants block in a force-field file. The only unit conversion performed internally by the program is between degrees and radians. The force-field files come 
 in GROMOS units, that is SI units, but with atomic mass units for mass, nm for distance, ps for time, and electronic charge for charge \cite{volume_6}. No simulation protocols are prescribed. 
 Input parameters specified by a user are not modified inside 
-the program unless incompatible with the code. In all cases a warning message is displayed. The interpretation of the results is simplified by an extensive 
+the program. % unless incompatible with the code. In all cases a warning message is displayed. 
+A warning is displayed for inconsistencies in the input that may lead to an erroneous simulation, but could also be intentional.
+The interpretation of the results is simplified by an extensive 
 documentation of the implemented algorithms and their technical details 
 in the manual available on the GROMOS web site \cite{volume_6,volume_2}.
 
