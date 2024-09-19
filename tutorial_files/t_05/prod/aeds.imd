@@ -124,5 +124,5 @@ AEDS
 # EIR [1..NUMSTATES]
          16.32    -43.66  12.99  14.35 
 # NTIAEDSS  RESTREMIN  BMAXTYPE      BMAX    ASTEPS    BSTEPS
-         0          1         2         2       500    10000 
+         0          1         2         2      1000    10000 
 END
