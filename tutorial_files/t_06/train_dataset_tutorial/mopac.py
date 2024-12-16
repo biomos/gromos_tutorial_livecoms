@@ -11,7 +11,7 @@ from shutil import rmtree
 
 # os.system('rm *.log')
 
-#logcnf.fileConfig('/home/radekc/Python/Python_modules/logging.info')
+#logcnf.fileConfig('/home/user/Python/Python_modules/logging.info')
 #logger = log.getLogger(__name__)
 
 KCAL_TO_KJ = 4.184
@@ -77,7 +77,7 @@ class Mopac_Calculation():
             #logger.info(f'Directories {self.mopac_path}/run_files and {self.mopac_path}/aux_out were successfully created.')
         except FileExistsError: pass
 
-        self.run_file = '#!/bin/bash\nMOPAC_DIR="/home/poliak/LWORK/2022/MOPAC"\nexport MOPAC_LICENSE=$MOPAC_DIR\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MOPAC_DIR\n'
+        self.run_file = '#!/bin/bash\nMOPAC_DIR="/path/to/MOPAC"\nexport MOPAC_LICENSE=$MOPAC_DIR\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MOPAC_DIR\n'
         self.last_line = f'\n$MOPAC_DIR/MOPAC2016.exe ' 
         self.inner_region_size = inner_region_size
         self.number_of_snapshots = 0
