@@ -12,8 +12,10 @@ livecoms-*.synctex.gz
 mk_[0-9]*.arg
 complex_snapshot_*.cnf
 *-checkpoint.ipynb
+.ipynb_checkpoints
 *.pyc
 reshake.imd
 buffer_pls_inner_*.cnf
 meoh_trial.db
 buffer_pls_inner_*.aux
+md_meoh_*
