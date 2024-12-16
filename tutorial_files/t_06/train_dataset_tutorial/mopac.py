@@ -9,7 +9,7 @@ from gromos import ReShake
 from glob import glob
 from shutil import rmtree
 
-os.system('rm *.log')
+# os.system('rm *.log')
 
 #logcnf.fileConfig('/home/radekc/Python/Python_modules/logging.info')
 #logger = log.getLogger(__name__)
