@@ -1,0 +1,21 @@
+name: spk
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - pytorch>=1.8.0
+  - ase>=3.19
+  - numpy<1.24 # this version is neccessary for schnetpack v1.0.1 and below
+  - tensorboardX
+  - h5py
+  - tqdm
+  - pytest
+  - pytest-datadir
+  - pre-commit
+  - black
+  - pybind11
+  - jupyter
+  - pip
+  - pip:
+    - schnetpack<2

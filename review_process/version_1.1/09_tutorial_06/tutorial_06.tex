@@ -42,13 +42,19 @@ We will learn how to install GROMOS with the interface to SchNetPack, generate a
 
 \subsubsection{Installation} \label{chap:burnn_install}
 \paragraph{Prerequisites}
-To compile and install GROMOS with the interface to SchNetPack (spk) to run NN models, you first need to have installed SchNetPack and the pybind11 library \cite{pybind11}. The interface uses the pybind11 library to call the model prediction functions in the Python code of SchNetPack. To install the SchNetPack and pybind11 library on your system, please follow their respective installation instructions. The tested version of SchNetPack is \href{https://github.com/atomistic-machine-learning/schnetpack/releases/tag/v1.0.1}{v1.0.1} and pybind11 v2.6.2.
+Before compiling the NN-enabled version of GROMOS to run Schnetpack (spk) NN models, we recommend compiling the standard version first. This will help isolate issues with missing or mismatched libraries that may arise during compilation.
+After you successfully compiled the standard GROMOS engine, you are now ready to compile the NN-enabled version. To do that, you first need to have installed SchNetPack and the pybind11 library \cite{pybind11}. The interface uses the pybind11 library to call the model prediction functions in the Python code of SchNetPack. To install the SchNetPack and pybind11 library on your system, you can use the yaml file, which can be conveniently installed using conda \cite{anaconda}
+\begin{lstlisting}[breaklines=true, breakatwhitespace=false]
+    conda create -f spk_gromos.yml
+\end{lstlisting}
+
+For a system-wide installation without using the environment, please follow the installation instructions of the respective packages. The tested version of SchNetPack is \href{https://github.com/atomistic-machine-learning/schnetpack/releases/tag/v1.0.1}{v1.0.1} and pybind11 v2.6.2.
 
 \paragraph{GPU acceleration}
 This part is optional to improve the efficiency of the simulations. The tasks in this tutorial are small enough to be run CPU-only in a reasonable time. For the production runs this is inefficient since the training and evaluation of models on a GPU is usually manifold faster. NN/MM MD simulations in GROMOS profit from this as well. Setting up your system to support the GPU acceleration is strongly architecture specific and is dependent on the installed CUDA and Pytorch versions. Please follow the installation instructions of CUDA and Pytorch to run tasks with the GPU acceleration.
 
 \paragraph{GROMOS compilation}
-Compilation of the NN-enabled version of GROMOS is activated by the \texttt{-{}-enable-schnetpack} flag in the configuration step. The \texttt{configure} script looks up the pybind11 library automatically; however, based on the versions of the packages and the architecture, it might not be found. In that case, you should provide the flags \texttt{PYFLAGS} and \texttt{PYLDFLAGS} to the \texttt{configure} script. The \texttt{PYFLAGS} variable holds the C preprocessor flags, which can be obtained by calling
+The NN feature of GROMOS is activated by the \texttt{-{}-enable-schnetpack} flag in the configuration step. The \texttt{configure} script automatically looks for the pybind11 library; however, based on the specific versions of the packages, architecture, and configuration, it might not be found. In that case, you should provide the \texttt{PYFLAGS} and \texttt{PYLDFLAGS} flags to the \texttt{configure} script. The \texttt{PYFLAGS} variable holds the C preprocessor flags, which can be obtained by calling
 
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false]
 python3 -m pybind11 --includes
@@ -66,9 +72,11 @@ python3-config --ldflags
 python3-config --ldflags --embed
 \end{lstlisting}
 
-\noindent{for newer versions. An example of the \texttt{configure} script then could be:}
+\noindent{for newer versions. If you have installed the packages using the provided conda environment, we recommend installing GROMOS to the specific environment it depends on using the \texttt{-{}-prefix} flag. An example of the \texttt{configure} script usage then could be:}
 \begin{lstlisting}[breaklines=true, breakatwhitespace=false, showstringspaces=false]
-$ ./configure --enable-schnetpack PYFLAGS='-I/path/to/include/python3.7 -I/path/to/lib/python3.7/site-packages/pybind11/include' PYLDFLAGS='-L/path/to/lib/python3.7/config -L/path/to/lib -lpython3.7 -lcrypt -lpthread -ldl -lutil -lrt -lm'
+$ mkdir build
+$ cd build
+$ ../configure --enable-schnetpack --prefix=$CONDA_PREFIX PYFLAGS='-I/path/to/include/python3.7 -I/path/to/lib/python3.7/site-packages/pybind11/include' PYLDFLAGS='-L/path/to/lib/python3.7/config -L/path/to/lib -lpython3.7 -lcrypt -lpthread -ldl -lutil -lrt -lm'
 \end{lstlisting}
 
 Further steps follow the standard compilation:
@@ -133,7 +141,7 @@ The whole process of geometry optimization and subsequent single point calculati
 
 
 \paragraph{Building a training database}
-In this chapter, we will explain how to build the ASE (atomic simulation environment) \cite{Larsen2017ASE} database from the previously calculated energies and forces of the configurations. The procedure is described in more detail in the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/tutorial_v2.ipynb}{jupyter notebook}. The \texttt{additional\_spk\_utils} module will be used for storing the relevant properties and metadata in the ASE database. 
+In this chapter, we will explain how to build the ASE (atomic simulation environment) \cite{Larsen2017ASE} database from the previously calculated energies and forces of the configurations. The procedure is described in more detail in the \href{https://github.com/LierB/gromos_tutorial_livecoms/blob/burnn_tutorial_rc/tutorial_files/t_06/train_dataset_tutorial/tutorial_v2.ipynb}{executable jupyter notebook}. The \texttt{additional\_spk\_utils} module will be used for storing the relevant properties and metadata in the ASE database. 
 
 
 \paragraph{Model training}
