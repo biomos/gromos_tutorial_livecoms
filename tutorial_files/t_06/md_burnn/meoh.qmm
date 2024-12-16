@@ -12,11 +12,11 @@ NNDEVICE
 cuda
 END
 NNMODEL
-path to /t_06/models/prediction_model/best_model
+../../t_06/models/prediction_model/best_model
 0 1
 END
 NNVALID
-path to /t_06/models/validation_model/best_model
+../../t_06/models/validation_model/best_model
 1 4.184 0
 END
 QMZONE

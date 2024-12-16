@@ -1,9 +1,5 @@
 import subprocess as sbp
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import os
-import torch
 from ase import Atoms
 import schnetpack as spk
 from shutil import rmtree

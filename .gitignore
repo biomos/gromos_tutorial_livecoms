@@ -1,0 +1,22 @@
+## temporary tex files
+livecoms-*.aux
+livecoms-*.bbl
+livecoms-*.blg
+livecoms-*.fdb_latexmk
+livecoms-*.fls
+livecoms-*.log
+livecoms-*.out
+livecoms-*.suppinfo
+livecoms-*.synctex.gz
+## files created during the tutorial
+mk_[0-9]*.arg
+complex_snapshot_*.cnf
+*-checkpoint.ipynb
+.ipynb_checkpoints
+*.pyc
+reshake.imd
+buffer_pls_inner_*.cnf
+meoh_trial.db
+buffer_pls_inner_*.aux
+!separated_cnf_files/buffer_pls_inner_0000[01].aux
+md_meoh_*

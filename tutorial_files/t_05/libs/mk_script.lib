@@ -74,7 +74,7 @@ MISCELLANEOUS
 #                   
 # TYPE      TEMPLATE
 workdir     \/scratch\/\$\{SLURM_JOBID\}
-firstcommand export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK} LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/cuda/lib64:/usr/local/cuda/lib:/usr/lib/nvidia-current:/home/oostenbrink/programs/mmslogin/cukernellib_8
+firstcommand export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK} LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/cuda/lib64:/usr/local/cuda/lib:/usr/lib/nvidia-current
 lastcommand sbatch --ntasks ${SLURM_NTASKS} --cpus-per-task ${SLURM_CPUS_PER_TASK} --gres=mps:$(scontrol show job ${SLURM_JOB_ID} | grep gres/mps | sed "s/^.*gres\/mps=//") --mem ${SLURM_MEM_PER_NODE} --partition ${SLURM_JOB_PARTITION} --time $(scontrol show job ${SLURM_JOB_ID} | grep TimeLimit | sed "s/^.*TimeLimit=//" | cut -d" " -f1) %system%_%number%.run
 END 
 LINKADDITION

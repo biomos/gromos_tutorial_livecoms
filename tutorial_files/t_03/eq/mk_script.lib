@@ -75,7 +75,7 @@ MISCELLANEOUS
 # TYPE      TEMPLATE
 workdir     \$\{TMPDIR\}
 #workdir \$\{SIMULDIR\}
-firstcommand export OMP_NUM_THREADS=$NUMCPUS; export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/cuda/lib64:/usr/local/cuda/lib:/usr/lib/nvidia-current:/home/oostenbrink/programs/mmslogin/cukernellib_8
+firstcommand export OMP_NUM_THREADS=$NUMCPUS; export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/cuda/lib64:/usr/local/cuda/lib:/usr/lib/nvidia-current
 lastcommand /home/common/grid/lqsub -j %system%_%number%.run -q graphic16 -p omp -c 4 -g 0
 END
 LINKADDITION
