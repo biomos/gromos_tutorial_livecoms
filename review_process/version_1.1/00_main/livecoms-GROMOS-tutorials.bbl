@@ -1,4 +1,4 @@
-\begin{thebibliography}{72}
+\begin{thebibliography}{73}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\urlprefix}{}
 \providecommand{\doiprefix}{https://doi.org/}
@@ -393,6 +393,11 @@
 \bibitem[{Jakob et~al.(2017)Wenzel Jakob and Jason Rhinelander and Dean Moldovan}]{pybind11}
 \textbf{\color{LiveCoMSMediumGrey} Jakob W}, Rhinelander J, Moldovan D, pybind11 -- Seamless operability between C++11 and Python; 2017.
 \newblock Https://github.com/pybind/pybind11.
+
+\bibitem[{ana(2016)}]{anaconda}
+Anaconda Software Distribution.
+\newblock Anaconda Inc.; 2016.
+\newblock \urlprefix\url{https://docs.anaconda.com/}.
 
 \bibitem[{Setwart(1990)Setwart, J. J. P.}]{Stewart1990MOPAC}
 \textbf{\color{LiveCoMSMediumGrey} Setwart JJP}.
